@@ -6,13 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <CheckedTextView
+        android:id="@+id/TopLabel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="Welcome!"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="gravity"
+        android:textAllCaps="false"
+        android:textColor="#666"
+        android:textSize="40sp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/OrTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textColor="#666"
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:padding="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/LogIn"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="Log In"
+            android:layout_above="@id/OrTextView"
+            android:fontFamily="sans-serif"
+            android:textSize="22sp"
+            android:textColor="#FFF"
+            android:background="#5555CC"
+            android:onClick="ClickLogIn"
+            tools:layout_editor_absoluteX="2sp"
+            tools:layout_editor_absoluteY="398dp"/>
+
+        <Button
+            android:id="@+id/NewAccount"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@id/OrTextView"
+            android:text="New Account"
+            android:fontFamily="sans-serif"
+            android:textSize="22sp"
+            android:textColor="#FFF"
+            android:background="#5555CC"
+            tools:layout_editor_absoluteX="2sp"
+            tools:layout_editor_absoluteY="398dp" />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
