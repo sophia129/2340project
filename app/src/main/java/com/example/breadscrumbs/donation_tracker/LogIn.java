@@ -11,6 +11,8 @@ import Model.LogInModel;
 
 public class LogIn extends AppCompatActivity {
 
+    SQLiteDatabaseHandler db = MainActivity.getDb();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +44,10 @@ public class LogIn extends AppCompatActivity {
      * If the user is not valid, then the user will not be taken to MainMenu.
      */
     public void ClickLogIn(View view) {
-        EditText userName = findViewById(R.id.Username);
+        EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.Password);
 
-        if (LogInModel.validSignIn(userName.getText().toString(), password.getText().toString())) {
+        if (LogInModel.validSignIn(email.getText().toString(), password.getText().toString())) {
             Intent newIntent = new Intent(this, MainMenu.class);
             startActivity(newIntent);
         } else {
@@ -62,7 +64,7 @@ public class LogIn extends AppCompatActivity {
      */
     public void resetPage()
     {
-        EditText userName = findViewById(R.id.Username);
+        EditText userName = findViewById(R.id.email);
         EditText password = findViewById(R.id.Password);
 
         userName.setText("");

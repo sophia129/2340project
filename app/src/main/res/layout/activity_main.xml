@@ -68,6 +68,7 @@
             android:textSize="22sp"
             android:textColor="#FFF"
             android:background="#5555CC"
+            android:onClick="ClickNewAccount"
             tools:layout_editor_absoluteX="2sp"
             tools:layout_editor_absoluteY="398dp" />
     </RelativeLayout>
