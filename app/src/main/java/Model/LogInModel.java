@@ -1,5 +1,7 @@
 package Model;
 
+import android.util.Log;
+
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 import com.example.breadscrumbs.donation_tracker.SQLiteDatabaseHandler;
 
@@ -13,8 +15,7 @@ public class LogInModel {
      */
     public static boolean validSignIn(String email, String password) {
         for (User user : db.allUsers()) {
-            System.out.println(user.getUserName());
-            if (user.getPassword().equals(password) && user.getUserEmail().equals(email)) {
+            if (user.getPassword().equals(password) && user.getUserEmail().equalsIgnoreCase(email)) {
                 return true;
             }
         }

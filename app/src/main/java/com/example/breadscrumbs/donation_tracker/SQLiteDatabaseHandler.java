@@ -40,8 +40,8 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + KEY_NAME + " TEXT PRIMARY KEY, " +
-                KEY_EMAIL + " TEXT, " + KEY_PASSWORD + " TEXT, " + KEY_TYPE + " TEXT);";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + KEY_NAME + " TEXT, " +
+                KEY_EMAIL + " TEXT PRIMARY KEY, " + KEY_PASSWORD + " TEXT, " + KEY_TYPE + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE);
     }
 

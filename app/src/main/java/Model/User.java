@@ -121,7 +121,7 @@ public class User implements Parcelable {
 
         User that = (User) other;
 
-        return (that.userEmail.equals(this.userEmail));
+        return (that.userEmail.equalsIgnoreCase(this.userEmail));
     }
 
 
