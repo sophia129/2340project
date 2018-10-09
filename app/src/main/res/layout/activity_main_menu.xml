@@ -51,6 +51,26 @@
             android:textColor="#ff011d33"
             android:textSize="12dp"
             android:visibility="invisible" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="247dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="244dp">
+
+        <Button
+            android:id="@+id/locationButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="ClickedLocationButton"
+            android:text="Location"
+
+            android:visibility="visible"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="259dp" />
     </RelativeLayout>
 
 
