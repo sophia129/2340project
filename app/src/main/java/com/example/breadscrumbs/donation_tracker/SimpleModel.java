@@ -26,7 +26,7 @@ public class SimpleModel {
         for (locationData d : items) {
             if (d.getKey() == id) return d;
         }
-        Log.d("MYAPP", "Warning - Failed to find id: " + id);
+        //Log.d("MYAPP", "Warning - Failed to find id: " + id);
         return null;
     }
 }

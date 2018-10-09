@@ -1,6 +1,5 @@
 package com.example.breadscrumbs.donation_tracker;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,14 +23,6 @@ public class MainMenu extends AppCompatActivity {
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
-    }
-
-    /**
-    * Handles location button and show the list of location
-    */
-    public void ClickedLocationButton(View view) {
-        Intent newIntent = new Intent(this, location.class);
-        startActivity(newIntent);
     }
 
 }

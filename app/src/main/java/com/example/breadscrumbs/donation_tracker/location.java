@@ -60,7 +60,7 @@ public class location extends AppCompatActivity {
         //locationData locationData;
         String line= null;
         try {
-            InputStream locationInput = getResources().openRawResource(R.raw.LocationData);
+            InputStream locationInput = getResources().openRawResource(R.raw.locationdata);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(locationInput, StandardCharsets.UTF_8)
             );
