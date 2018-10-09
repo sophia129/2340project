@@ -8,8 +8,6 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static SQLiteDatabaseHandler db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
         // Use these lines to hide the action bar for each page
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-
-        db = new SQLiteDatabaseHandler(this);
 
 
         setContentView(R.layout.activity_main);
@@ -33,15 +29,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(newIntent);
     }
 
-    /**
-     * Handles the press of the New Account button, sending the user to NewAccount
-     */
-    public void ClickNewAccount(View view) {
-        Intent newIntent = new Intent(this, NewAccount.class);
-        startActivity(newIntent);
-    }
-
-    public static SQLiteDatabaseHandler getDb() {
-        return db;
-    }
 }
