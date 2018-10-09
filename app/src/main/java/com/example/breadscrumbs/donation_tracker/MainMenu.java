@@ -27,7 +27,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to LogIn
+     * Handles location button
      */
     public void ClickedLocationButton(View view) {
         Intent newIntent = new Intent(this, location.class);
