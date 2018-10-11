@@ -1,4 +1,4 @@
-package com.example.breadscrumbs.donation_tracker;
+package Model;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -76,6 +76,8 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
      */
     public User getUser(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
+
+
         Cursor cursor = db.query(TABLE_NAME,
                 COLUMNS,
                 KEY_EMAIL + " = ?",

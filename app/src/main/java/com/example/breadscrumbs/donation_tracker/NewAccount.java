@@ -13,12 +13,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import Model.NewAccountModel;
 
-import Model.LogInModel; //REPLACE THIS!!!!!
-import Model.NewAccountModel;
+import Model.SQLiteDatabaseHandler;
 import Model.User;
 
 public class NewAccount extends AppCompatActivity implements AdapterView.OnItemSelectedListener {

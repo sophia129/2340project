@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import Model.LogInModel;
+import Model.SQLiteDatabaseHandler;
 
 public class LogIn extends AppCompatActivity {
 

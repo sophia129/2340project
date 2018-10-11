@@ -6,9 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import Model.LocationSQLiteDBHandler;
+import Model.SQLiteDatabaseHandler;
+
 public class MainActivity extends AppCompatActivity {
 
     public static SQLiteDatabaseHandler db;
+    public static LocationSQLiteDBHandler dbLocations;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         db = new SQLiteDatabaseHandler(this);
 
+        dbLocations = new LocationSQLiteDBHandler(this);
 
         setContentView(R.layout.activity_main);
     }
@@ -44,4 +50,9 @@ public class MainActivity extends AppCompatActivity {
     public static SQLiteDatabaseHandler getDb() {
         return db;
     }
+
+    public static LocationSQLiteDBHandler getLocationsDb() {
+        return dbLocations;
+    }
+
 }

@@ -1,9 +1,6 @@
 package Model;
 
-import android.util.Log;
-
 import com.example.breadscrumbs.donation_tracker.MainActivity;
-import com.example.breadscrumbs.donation_tracker.SQLiteDatabaseHandler;
 
 public class LogInModel {
 

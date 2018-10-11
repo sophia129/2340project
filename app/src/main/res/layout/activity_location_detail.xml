@@ -4,23 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".location">
-
-
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".location">
--->
+    tools:context=".LocationDetail">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <RelativeLayout
             android:id="@+id/topLayout"
             android:layout_width="fill_parent"
@@ -48,7 +37,7 @@ tools:context=".location">
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:gravity="center"
-                android:text="Locations"
+                android:text="Details"
                 android:textAlignment="gravity"
                 android:textAllCaps="false"
                 android:textColor="#666"
@@ -67,16 +56,24 @@ tools:context=".location">
                 android:textSize="12dp"
                 android:visibility="invisible" />
 
-
         </RelativeLayout>
 
-        <ListView
-            android:id="@+id/LocationsLV"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp">
-        </ListView>
+        <TextView
+            android:text="Hello"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/DetailHolder"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:isScrollContainer="true"
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideOverlay"
+            android:overScrollMode="ifContentScrolls"
+            android:gravity="left" />
+
+
     </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>
