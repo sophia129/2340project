@@ -51,6 +51,32 @@
             android:textColor="#ff011d33"
             android:textSize="12dp"
             android:visibility="invisible" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp">
+        <Button
+            android:id="@+id/Locations"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Locations"
+            android:layout_above="@id/OrTextView"
+            android:fontFamily="sans-serif"
+            android:textSize="22sp"
+            android:textColor="#FFF"
+            android:background="#5555CC"
+            android:onClick="ClickedLocationButton"
+
+            tools:layout_editor_absoluteX="2sp"
+            tools:layout_editor_absoluteY="398dp"/>
+
     </RelativeLayout>
 
 

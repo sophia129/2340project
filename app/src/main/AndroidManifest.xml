@@ -17,7 +17,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".LogIn" />
-        <activity android:name=".MainMenu"></activity>
+        <activity android:name=".NewAccount" />
+        <activity android:name=".MainMenu" />
+        <activity android:name=".location" />
+        <activity android:name=".LocationDetail"></activity>
     </application>
 
 </manifest>
