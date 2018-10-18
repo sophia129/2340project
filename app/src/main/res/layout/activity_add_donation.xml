@@ -118,26 +118,17 @@
                 android:textColor="#ff000000"
                 android:textColorHint="#33000000" />
 
-            <EditText
-                android:id="@+id/location"
-                android:layout_width="268dp"
-                android:layout_height="46dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/description"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#eee"
-                android:hint="Location"
-                android:inputType="text"
-                android:textColor="#ff000000"
-                android:textColorHint="#33000000" />
-
             <Spinner
                 android:id="@+id/category"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="15dp"
                 android:layout_height="48dp" />
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:text="TextView" />
 
             <Button
                 android:id="@+id/addDonation"
@@ -146,7 +137,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="#5555CC"
                 android:fontFamily="sans-serif"
-                android:onClick="AddDonation"
+                android:onClick="createDonation"
                 android:text="Add item"
                 android:textColor="#FFF"
                 android:textSize="22sp"

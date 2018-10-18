@@ -1,10 +1,13 @@
 package com.example.breadscrumbs.donation_tracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,15 +15,14 @@ import Model.Location;
 import Model.LocationDetailModel;
 import Model.LocationSQLiteDBHandler;
 
-public class LocationDetail extends AppCompatActivity {
-
+public class DonationList extends AppCompatActivity {
     LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
     Location currentLocation = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location_detail);
+        setContentView(R.layout.activity_donation_detail);
 
         // Use these lines to hide the action bar for each page
         ActionBar actionBar = getSupportActionBar();
@@ -46,20 +48,6 @@ public class LocationDetail extends AppCompatActivity {
         TextView detailHolder = (TextView) findViewById(R.id.DetailHolder);
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);
-    }
-    /* M7 handlers */
-    public void AddDonation(View view) {
-
-        Intent newIntent = new Intent(this, NewDonation.class);
-        newIntent.putExtra("Location", currentLocation.getName());
-        newIntent.putExtra("LocationKey", currentLocation.getKey());
-        startActivity(newIntent);
-
-    }
-    public void ViewDonations(View view) {
-        Intent newIntent = new Intent(this, DonationList.class);
-        startActivity(newIntent);
-
     }
 
     /**

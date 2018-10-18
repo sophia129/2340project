@@ -10,27 +10,29 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
-
-import Model.NewAccountModel;
-
-import Model.SQLiteDatabaseHandler;
-import Model.User;
+import Model.DonationDatabaseHandler;
+import Model.Donation;
 
 
-public class NewDonation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+public class NewDonation extends AppCompatActivity {
 
     private EditText item;
     private EditText description;
     private EditText timestamp;
     private EditText value;
-    private EditText location;
+    private TextView location;
     private Spinner categorySpinner;
     private Button addDonationButton;
+    private Button backButton;
 
-    SQLiteDatabaseHandler db = MainActivity.getDb();
+    DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    String locationName = "";
+    String locationKey = "";
 
     /**
      *
@@ -45,13 +47,20 @@ public class NewDonation extends AppCompatActivity implements AdapterView.OnItem
 
         setContentView(R.layout.activity_add_donation);
 
+        Intent intent = getIntent();
+        locationName = intent.getStringExtra("Location");
+        locationKey = intent.getStringExtra("LocationKey");
+
         item = findViewById(R.id.item);
         description = findViewById(R.id.description);
         timestamp = findViewById(R.id.timestamp);
         value = findViewById(R.id.value);
         location = findViewById(R.id.location);
+        location.setText("Location: " + locationName);
         categorySpinner = findViewById(R.id.category);
         addDonationButton = findViewById(R.id.addDonation);
+
+        backButton = findViewById(R.id.BackButton);
 
         ArrayList<String> typeList = new ArrayList<>();
         typeList.add("Clothing");
@@ -71,6 +80,11 @@ public class NewDonation extends AppCompatActivity implements AdapterView.OnItem
                 createDonation(v);
             }
         });
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ClickedBackButton(v);
+            }
+        });
 
 
     }
@@ -83,9 +97,7 @@ public class NewDonation extends AppCompatActivity implements AdapterView.OnItem
     /**
      * Handles back press click; takes user back to MainActivity
      */
-    public void ClickedBackButton(View view) {
-        onBackPressed();
-    }
+
 
     /**
      * Handles log in click; checks validity of credentials before starting MainMenu.
@@ -101,26 +113,33 @@ public class NewDonation extends AppCompatActivity implements AdapterView.OnItem
         boolean timestampEmpty = timestamp.getText().toString().equals("");
         boolean valueEmpty = value.getText().toString().equals("");
         boolean locationEmpty = location.getText().toString().equals("");
+        boolean categoryEmpty = categorySpinner.getSelectedItem().toString().equals("");
+
+        Donation toAdd = new Donation(item.getText().toString(), description.getText().toString(),
+                timestamp.getText().toString(), value.getText().toString(), location.getText().toString(),
+                categorySpinner.getSelectedItem().toString());
+
+
 
 //         PERSISTANCE!!
 
-//        if (itemEmpty || descriptionEmpty || timestampEmpty || valueEmpty || locationEmpty) {
-//            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//            dialog.setTitle("Missing Entry!");
-//            dialog.setMessage("Please ensure all fields are filled");
-//            dialog.setPositiveButton("OK", null);
-//            dialog.show();
+        if (itemEmpty || descriptionEmpty || timestampEmpty || valueEmpty || locationEmpty) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Missing Entry!");
+            dialog.setMessage("Please ensure all fields are filled");
+            dialog.setPositiveButton("OK", null);
+            dialog.show();
 //        } else if (db.allUsers().contains(userToAdd)) {
 //            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 //            dialog.setTitle("Email Error!");
 //            dialog.setMessage("That email already exists in our system.");
 //            dialog.setPositiveButton("OK", null);
 //            dialog.show();
-//        } else {
-//            db.addUser(userToAdd);
-//            Intent newIntent = new Intent(this, MainActivity.class);
+        } else {
+            db.addDonation(toAdd, locationKey);
+//            Intent newIntent = new Intent(this, LocationDetail.class);
 //            startActivity(newIntent);
-//        }
+        }
 
     }
 
@@ -139,14 +158,9 @@ public class NewDonation extends AppCompatActivity implements AdapterView.OnItem
         value.setText("");
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
+    public void ClickedBackButton(View view) {
+        onBackPressed();
     }
 }
 

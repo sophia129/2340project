@@ -10,19 +10,48 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import Model.User;
+import Model.Donation;
 
 public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "DonationsDB";
-    private static final String TABLE_NAME = "Donations";
+
+    private static final String TABLE_1 = "T1";
+    private static final String TABLE_2 = "T2";
+    private static final String TABLE_3 = "T3";
+    private static final String TABLE_4 = "T4";
+    private static final String TABLE_5 = "T5";
+    private static final String TABLE_6 = "T6";
+
     private static final String KEY_ITEM = "item";
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_TIMESTAMP = "timestamp";
     private static final String KEY_VALUE = "value";
-    private static final String KEY_LOCATION = "location";
     private static final String KEY_CATEGORY = "category";
+
+    String CREATE_TABLE_1 = "CREATE TABLE " + TABLE_1 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+                KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+                KEY_CATEGORY + " TEXT);";
+    String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_2 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+            KEY_CATEGORY + " TEXT);";
+    String CREATE_TABLE_3 = "CREATE TABLE " + TABLE_3 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+            KEY_CATEGORY + " TEXT);";
+    String CREATE_TABLE_4 = "CREATE TABLE " + TABLE_4 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+            KEY_CATEGORY + " TEXT);";
+    String CREATE_TABLE_5 = "CREATE TABLE " + TABLE_5 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+            KEY_CATEGORY + " TEXT);";
+    String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_6 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+            KEY_CATEGORY + " TEXT);";
+
+
+//    private static final String KEY_LOCATION = "location";
+
 
     private static final String[] COLUMNS = {KEY_ITEM, KEY_DESCRIPTION, KEY_TIMESTAMP, KEY_VALUE, KEY_CATEGORY};
 
@@ -42,9 +71,12 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + KEY_NAME + " TEXT, " +
-                KEY_EMAIL + " TEXT PRIMARY KEY, " + KEY_PASSWORD + " TEXT, " + KEY_TYPE + " TEXT);";
-        sqLiteDatabase.execSQL(CREATE_TABLE);
+        sqLiteDatabase.execSQL(CREATE_TABLE_1);
+        sqLiteDatabase.execSQL(CREATE_TABLE_2);
+        sqLiteDatabase.execSQL(CREATE_TABLE_3);
+        sqLiteDatabase.execSQL(CREATE_TABLE_4);
+        sqLiteDatabase.execSQL(CREATE_TABLE_5);
+        sqLiteDatabase.execSQL(CREATE_TABLE_6);
     }
 
     /**
@@ -56,7 +88,12 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_1);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_2);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_3);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_4);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_5);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_6);
         this.onCreate(sqLiteDatabase);
     }
 
@@ -76,64 +113,44 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
      * @param email
      * @return
      */
-    public User getUser(String email) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-
-        Cursor cursor = db.query(TABLE_NAME,
-                COLUMNS,
-                KEY_EMAIL + " = ?",
-                new String[] {KEY_EMAIL},
-                null,
-                null,
-                null
-        );
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
-        User user = new User(cursor.getString(0), cursor.getString(1),
-                cursor.getString(2), User.UserType.valueOf(cursor.getString(3).toUpperCase()));
-
-        return user;
-    }
 
     /**
      * @return list of all users in the database
      */
-    public List<User> allUsers() {
-        List<User> users = new LinkedList<>();
-        String query = "SELECT * FROM " + TABLE_NAME;
+    public List<Donation> allUsers(String key) {
+        List<Donation> items = new LinkedList<>();
+        String query = "SELECT * FROM " + "T" + key;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        User user = null;
+        Donation item = null;
 
         if (cursor.moveToFirst()) {
             do {
-                user = new User(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2),
-                        User.UserType.valueOf(cursor.getString(3).toUpperCase()));
-                users.add(user);
+                item = new Donation(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                items.add(item);
             } while (cursor.moveToNext());
         }
 
-        return users;
+        return items;
     }
 
     /**
      * Adds a user to the database
-     * @param user
+     * @param item
      */
-    public void addUser(User user) {
+    public void addDonation(Donation item, String key) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, user.getUserName());
-        values.put(KEY_EMAIL, user.getUserEmail());
-        values.put(KEY_PASSWORD, user.getPassword());
-        values.put(KEY_TYPE, user.getUserType().getUserTypeString());
+        values.put(KEY_ITEM, item.getItem());
+        values.put(KEY_DESCRIPTION, item.getDescription());
+        values.put(KEY_TIMESTAMP, item.getTimestamp());
+        values.put(KEY_VALUE, item.getValue());
+        values.put(KEY_CATEGORY, item.getCategory());
 
-        db.insert(TABLE_NAME, null, values);
+        db.insert("T" + key, null, values);
         db.close();
+
     }
 
     /**

@@ -8,11 +8,13 @@ import android.view.View;
 
 import Model.LocationSQLiteDBHandler;
 import Model.SQLiteDatabaseHandler;
+import Model.DonationDatabaseHandler;
 
 public class MainActivity extends AppCompatActivity {
 
     public static SQLiteDatabaseHandler db;
     public static LocationSQLiteDBHandler dbLocations;
+    public static DonationDatabaseHandler dbDonations;
 
 
     @Override
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
         db = new SQLiteDatabaseHandler(this);
 
         dbLocations = new LocationSQLiteDBHandler(this);
+
+        dbDonations = new DonationDatabaseHandler(this);
 
         setContentView(R.layout.activity_main);
     }
@@ -53,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static LocationSQLiteDBHandler getLocationsDb() {
         return dbLocations;
+    }
+    public static DonationDatabaseHandler getDonationsDb() {
+        return dbDonations;
     }
 
 }
