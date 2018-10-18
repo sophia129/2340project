@@ -40,18 +40,21 @@ public class LocationDetail extends AppCompatActivity {
     public void loadTV()
     {
         Intent intent = getIntent();
-
         String key = intent.getStringExtra("Location Key");
-
         Location currentLocation = db.getLocation(key);
-
         String toShow = LocationDetailModel.returnContents(currentLocation);
-
         TextView detailHolder = (TextView) findViewById(R.id.DetailHolder);
-
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
-
         detailHolder.setText(toShow);
+    }
+    /* M7 handlers */
+    public void AddDonation(View view) {
+        Intent newIntent = new Intent(this, NewDonation.class);
+        startActivity(newIntent);
+
+    }
+    public void ViewDonations(View view) {
+
     }
 
     /**

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NewDonation">
+
+
+    <RelativeLayout
+        android:id="@+id/topLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <Button
+            android:id="@+id/BackButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:onClick="ClickedBackButton"
+            android:text="&lt;"
+            android:textColor="#666"
+            android:textSize="30dp"
+            android:typeface="serif" />
+
+        <CheckedTextView
+            android:id="@+id/TopLabel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:gravity="center"
+            android:text="Donation Adder"
+            android:textAlignment="gravity"
+            android:textAllCaps="false"
+            android:textColor="#666"
+            android:textSize="40sp" />
+
+        <Button
+            android:id="@+id/exitButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="0dp"
+            android:text="EXIT"
+            android:textColor="#ff011d33"
+            android:textSize="12dp"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Everything you want to scroll goes here -->
+            <EditText
+                android:id="@+id/item"
+                android:layout_width="356dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="77dp"
+                android:background="#eee"
+                android:hint="Item"
+                android:inputType="text"
+                android:textColor="#ff000000"
+                android:textColorHint="#33000000" />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="362dp"
+                android:layout_height="81dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="#eee"
+                android:hint="Description"
+                android:inputType="text"
+                android:textColor="#ff000000"
+                android:textColorHint="#33000000" />
+
+            <EditText
+                android:id="@+id/timestamp"
+                android:layout_width="308dp"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="#eee"
+                android:hint="Timestamp"
+                android:inputType="text"
+                android:textColor="#ff000000"
+                android:textColorHint="#33000000" />
+
+            <EditText
+                android:id="@+id/value"
+                android:layout_width="131dp"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/description"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="#eee"
+                android:hint="Value($)"
+                android:inputType="text"
+                android:textColor="#ff000000"
+                android:textColorHint="#33000000" />
+
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="268dp"
+                android:layout_height="46dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/description"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="#eee"
+                android:hint="Location"
+                android:inputType="text"
+                android:textColor="#ff000000"
+                android:textColorHint="#33000000" />
+
+            <Spinner
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="15dp"
+                android:layout_height="48dp" />
+
+            <Button
+                android:id="@+id/addDonation"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_alignParentBottom="true"
+                android:background="#5555CC"
+                android:fontFamily="sans-serif"
+                android:onClick="AddDonation"
+                android:text="Add item"
+                android:textColor="#FFF"
+                android:textSize="22sp"
+                tools:layout_editor_absoluteX="2sp"
+                tools:layout_editor_absoluteY="398dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
