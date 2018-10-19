@@ -40,7 +40,6 @@ public class NewDonation extends AppCompatActivity {
 
     String locationName = "";
     String locationKey = "";
-    String userEmail;
 
     /**
      *
@@ -56,10 +55,9 @@ public class NewDonation extends AppCompatActivity {
         setContentView(R.layout.activity_add_donation);
 
         Intent intent = getIntent();
-        locationName = intent.getStringExtra("Location");
-        locationKey = intent.getStringExtra("LocationKey");
-        userEmail = intent.getStringExtra("email");
+        locationKey = intent.getStringExtra("Location Key");
 
+        Log.d("Key", locationKey);
 
         currentLocation = dbLocations.getLocation(locationKey);
 
@@ -117,10 +115,7 @@ public class NewDonation extends AppCompatActivity {
             dialog.show();
         } else {
             db.addDonation(toAdd, locationKey);
-            Intent newIntent = new Intent(this, LocationDetail.class);
-            newIntent.putExtra("Location Key", locationKey);
-            newIntent.putExtra("email", userEmail);
-            startActivity(newIntent);
+            onBackPressed();
         }
 
     }
