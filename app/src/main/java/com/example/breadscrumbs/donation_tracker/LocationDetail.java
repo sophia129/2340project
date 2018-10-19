@@ -5,7 +5,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Button;
 
@@ -19,14 +22,15 @@ public class LocationDetail extends AppCompatActivity {
 
     LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
     SQLiteDatabaseHandler usersDb = MainActivity.getDb();
+    TextView detailHolder;
 
     Location currentLocation = null;
     String userEmail;
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         // Use these lines to hide the action bar for each page
         ActionBar actionBar = getSupportActionBar();
@@ -36,7 +40,7 @@ public class LocationDetail extends AppCompatActivity {
 
         //Get current location and set the instance variable
         Intent intent = getIntent();
-        String key = intent.getStringExtra("Location Key");
+        key = intent.getStringExtra("Location Key");
         userEmail = intent.getStringExtra("email");
         currentLocation = db.getLocation(key);
 
@@ -45,10 +49,27 @@ public class LocationDetail extends AppCompatActivity {
 
         System.out.println("user type" + usersDb.getUser(userEmail).getUserType());
 
+        detailHolder = (TextView) findViewById(R.id.DetailHolder);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final int height = displayMetrics.heightPixels; // gets height of display
+
+        RelativeLayout topLayout = (RelativeLayout) findViewById(R.id.topLayout);
+
+        int forTV = height - (topLayout.getLayoutParams().height * 2);
+
         if (usersDb.getUser(userEmail).getUserType() == User.UserType.USER) {
             view.setVisibility(View.GONE);
             add.setVisibility(View.GONE);
+        } else {
+            // 1.2 multipliers to approximately account for spacing between them
+            forTV -= (view.getLayoutParams().height + add.getLayoutParams().height);
         }
+
+
+        detailHolder.getLayoutParams().height = forTV;
+
 
         loadTV();
     }
@@ -73,6 +94,7 @@ public class LocationDetail extends AppCompatActivity {
         newIntent.putExtra("Location", currentLocation.getName());
         newIntent.putExtra("LocationKey", currentLocation.getKey());
         newIntent.putExtra("email", userEmail);
+
         startActivity(newIntent);
 
     }

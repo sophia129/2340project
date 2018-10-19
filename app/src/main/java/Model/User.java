@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class User implements Parcelable {
 
     public enum UserType {
-        USER("User"), LOCATIONEMPLOYEE("Location Employee"), ADMIN("Admin"), MANAGER("Manager");
+        USER("USER"), LOCATIONEMPLOYEE("LOCATION EMPLOYEE"), ADMIN("ADMIN"), MANAGER("MANAGER");
 
         private String userTypeString;
 
@@ -17,6 +17,7 @@ public class User implements Parcelable {
         public String getUserTypeString() {
             return this.userTypeString;
         }
+
     }
 
     private String userName;
@@ -124,7 +125,12 @@ public class User implements Parcelable {
         return (that.userEmail.equalsIgnoreCase(this.userEmail));
     }
 
-
+    /**
+     * Returns the user type string with its spaces removed; used for converting to enum's state
+     */
+    public static String removeSpacesFromUserTypeString(String userTypeString) {
+        return userTypeString.replaceAll(" ", "");
+    }
 
 
 

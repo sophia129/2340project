@@ -22,7 +22,6 @@ public class DonationDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         // Use these lines to hide the action bar for each page
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
@@ -51,15 +50,20 @@ public class DonationDetail extends AppCompatActivity {
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);
     }
+
+    /**
+     * This compiles all the text to be displayed on the screen into a string that is returned;
+     */
     public static String returnContents(Donation item)
     {
         String forTV = "";
 
-        forTV += "Item\n" + item.getItem() + "\n\n";
-        forTV += "Description\n" + item.getDescription() + "\n\n";
-        forTV += "Timestamp\n" + item.getTimestamp() + "\n\n";
-        forTV += "Value\n" + item.getValue() + "\n\n";
-        forTV += "Category\n" + item.getCategory() + "\n\n";
+        forTV += "Item:\n" + item.getItem() + "\n\n";
+        forTV += "Description:\n" + item.getDescription() + "\n\n";
+        forTV += "Timestamp:\n" + item.getTimestamp() + "\n\n";
+        forTV += "Value:\n" + item.getValue() + "\n\n";
+        forTV += "Location:\n" + item.getLocation().getName() + "\n\n";
+        forTV += "Category:\n" + item.getCategory() + "\n\n";
 
         return forTV;
     }

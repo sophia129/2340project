@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,24 +14,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Spinner;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
+
 import Model.DonationDatabaseHandler;
 import Model.Donation;
-
+import Model.Location;
+import Model.LocationSQLiteDBHandler;
 
 
 public class NewDonation extends AppCompatActivity {
 
     private EditText item;
     private EditText description;
-    private EditText timestamp;
     private EditText value;
     private TextView location;
     private Spinner categorySpinner;
-    private Button addDonationButton;
-    private Button backButton;
+    private Location currentLocation;
+    private EditText comments;
 
     DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    LocationSQLiteDBHandler dbLocations = MainActivity.getLocationsDb();
+
     String locationName = "";
     String locationKey = "";
     String userEmail;
@@ -53,16 +60,14 @@ public class NewDonation extends AppCompatActivity {
         locationKey = intent.getStringExtra("LocationKey");
         userEmail = intent.getStringExtra("email");
 
+
+        currentLocation = dbLocations.getLocation(locationKey);
+
         item = findViewById(R.id.item);
         description = findViewById(R.id.description);
-        timestamp = findViewById(R.id.timestamp);
         value = findViewById(R.id.value);
-        location = findViewById(R.id.location);
-        location.setText("Location: " + locationName);
         categorySpinner = findViewById(R.id.category);
-        addDonationButton = findViewById(R.id.addDonation);
-
-        backButton = findViewById(R.id.BackButton);
+        comments = findViewById(R.id.comments);
 
         ArrayList<String> typeList = new ArrayList<>();
         typeList.add("Clothing");
@@ -77,18 +82,6 @@ public class NewDonation extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
 
-        addDonationButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                createDonation(v);
-            }
-        });
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ClickedBackButton(v);
-            }
-        });
-
-
     }
     @Override
     protected void onResume() {
@@ -97,46 +90,31 @@ public class NewDonation extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to MainActivity
-     */
-
-
-    /**
-     * Handles log in click; checks validity of credentials before starting MainMenu.
-     * If the user is not valid, then the user will not be taken to MainMenu.
+     * This is responsible for creating a donation to add to the database from the filled in fields on the screen.
      */
     public void createDonation(View view) {
-//        User userToAdd = new User(name.getText().toString(),
-//                email.getText().toString(),
-//                password.getText().toString(), User.UserType.USER); //CHANGE THIS!!!!
-//
+
         boolean itemEmpty = item.getText().toString().equals("");
         boolean descriptionEmpty = description.getText().toString().equals("");
-        boolean timestampEmpty = timestamp.getText().toString().equals("");
         boolean valueEmpty = value.getText().toString().equals("");
-        boolean locationEmpty = location.getText().toString().equals("");
         boolean categoryEmpty = categorySpinner.getSelectedItem().toString().equals("");
 
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+
+        Date date = new Date();
+        String timeStamp = formatter.format(date);
+
+
         Donation toAdd = new Donation(item.getText().toString(), description.getText().toString(),
-                timestamp.getText().toString(), value.getText().toString(), location.getText().toString(),
-                categorySpinner.getSelectedItem().toString());
+                timeStamp, value.getText().toString(), currentLocation, categorySpinner.getSelectedItem().toString(), comments.getText().toString());
 
 
-
-//         PERSISTANCE!!
-
-        if (itemEmpty || descriptionEmpty || timestampEmpty || valueEmpty || locationEmpty) {
+        if (itemEmpty || descriptionEmpty || valueEmpty) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Missing Entry!");
             dialog.setMessage("Please ensure all fields are filled");
             dialog.setPositiveButton("OK", null);
             dialog.show();
-//        } else if (db.allUsers().contains(userToAdd)) {
-//            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-//            dialog.setTitle("Email Error!");
-//            dialog.setMessage("That email already exists in our system.");
-//            dialog.setPositiveButton("OK", null);
-//            dialog.show();
         } else {
             db.addDonation(toAdd, locationKey);
             Intent newIntent = new Intent(this, LocationDetail.class);
@@ -153,16 +131,16 @@ public class NewDonation extends AppCompatActivity {
     public void resetPage() {
         item = findViewById(R.id.item);
         description = findViewById(R.id.description);
-        timestamp = findViewById(R.id.timestamp);
         value = findViewById(R.id.value);
 
         item.setText("");
         description.setText("");
-        timestamp.setText("");
         value.setText("");
     }
 
-
+    /**
+     * Returns user to the LocationDetail view
+     */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
