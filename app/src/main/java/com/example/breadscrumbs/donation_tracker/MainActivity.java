@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     public static SQLiteDatabaseHandler getDb() {
         return db;
     }
-
     public static LocationSQLiteDBHandler getLocationsDb() {
         return dbLocations;
     }

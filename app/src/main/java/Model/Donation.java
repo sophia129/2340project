@@ -9,16 +9,18 @@ public class Donation {
     private String description;
     private String timestamp;
     private String value;
-    private String location;
+    private Location location;
     private String category;
+    private String comments;
 
-    public Donation(String item, String description, String timestamp, String value, String location, String category) {
+    public Donation(String item, String description, String timestamp, String value, Location location, String category, String comments) {
         this.item = item;
         this.description = description;
         this.timestamp = timestamp;
         this.value = value;
         this.location = location;
         this.category = category;
+        this.comments = comments;
     }
 
     public String getItem() {
@@ -33,13 +35,14 @@ public class Donation {
     public String getValue() {
         return this.value;
     }
-    public String getLocation() {
+    public Location getLocation() {
         return this.location;
     }
     public String getCategory() {
         return this.category;
     }
+    public String getComments() { return this.comments; }
 
-    public String toString() { return this.item + "\n" + this.description+ "\n" + this.timestamp + "\n" + this.value + "\n" + this.location + "\n" + this.category + "\n"; }
+    public String toString() { return this.item + "\n" + this.description+ "\n" + this.timestamp + "\n" + this.value + "\n" + this.location.getName() + "\n" + this.category + "\n" + this.comments; }
 
 }

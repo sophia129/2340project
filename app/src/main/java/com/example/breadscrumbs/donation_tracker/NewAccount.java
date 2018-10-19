@@ -88,7 +88,8 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
      * If the user is not valid, then the user will not be taken to MainMenu.
      */
     public void ClickCreateAccount(View view) {
-        User.UserType userType = User.UserType.valueOf(userTypeSpinner.getSelectedItem().toString().toUpperCase());
+        String noSpaceString = Model.User.removeSpacesFromUserTypeString(userTypeSpinner.getSelectedItem().toString().toUpperCase());
+        User.UserType userType = User.UserType.valueOf(noSpaceString);
         User userToAdd = new User(name.getText().toString(),
                 email.getText().toString(),
                 password.getText().toString(), userType);

@@ -42,6 +42,9 @@ public class DonationList extends AppCompatActivity {
 
     }
 
+    /**
+     * Fills the list view with the donation items for the designated location
+     */
     private void loadLV()
     {
         final String[] names = itemsAsList();
@@ -70,6 +73,10 @@ public class DonationList extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * This gets all the donations stored in the database and returns them as a string array
+     */
     private String[] itemsAsList() {
         String[] toReturn = new String[db.allItems(locationKey).size()];
         int index = 0;

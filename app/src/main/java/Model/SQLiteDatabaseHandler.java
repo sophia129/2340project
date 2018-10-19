@@ -131,7 +131,8 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, user.getUserName());
         values.put(KEY_EMAIL, user.getUserEmail());
         values.put(KEY_PASSWORD, user.getPassword());
-        values.put(KEY_TYPE, user.getUserType().getUserTypeString());
+        values.put(KEY_TYPE, user.getUserType().name());
+        //values.put(KEY_TYPE, user.getUserType().getUserTypeString());
 
         System.out.println(values);
 
@@ -158,7 +159,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, user.getUserName());
         values.put(KEY_EMAIL, user.getUserEmail());
         values.put(KEY_PASSWORD, user.getPassword());
-        values.put(KEY_TYPE, user.getUserType().getUserTypeString());
+        values.put(KEY_TYPE, user.getUserType().name());
 
         int i = db.update(TABLE_NAME,
                 values,
@@ -168,8 +169,4 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         return i;
 
     }
-
-
-
-
 }
