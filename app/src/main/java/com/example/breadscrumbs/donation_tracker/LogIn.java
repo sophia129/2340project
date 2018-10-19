@@ -50,6 +50,7 @@ public class LogIn extends AppCompatActivity {
 
         if (LogInModel.validSignIn(email.getText().toString(), password.getText().toString())) {
             Intent newIntent = new Intent(this, MainMenu.class);
+            newIntent.putExtra("email", email.getText().toString());
             startActivity(newIntent);
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);

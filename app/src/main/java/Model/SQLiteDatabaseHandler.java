@@ -81,7 +81,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLE_NAME,
                 COLUMNS,
                 KEY_EMAIL + " = ?",
-                new String[] {KEY_EMAIL},
+                new String[] {email},
                 null,
                 null,
                 null
@@ -89,6 +89,9 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
         }
+
+//        User user = new User(cursor.getString(0), cursor.getString(1),
+//                cursor.getString(2), User.UserType.valueOf(cursor.getString(3).toUpperCase()));
 
         User user = new User(cursor.getString(0), cursor.getString(1),
                 cursor.getString(2), User.UserType.valueOf(cursor.getString(3).toUpperCase()));

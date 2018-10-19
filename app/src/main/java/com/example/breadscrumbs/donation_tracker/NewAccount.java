@@ -88,9 +88,10 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
      * If the user is not valid, then the user will not be taken to MainMenu.
      */
     public void ClickCreateAccount(View view) {
+        User.UserType userType = User.UserType.valueOf(userTypeSpinner.getSelectedItem().toString().toUpperCase());
         User userToAdd = new User(name.getText().toString(),
                 email.getText().toString(),
-                password.getText().toString(), User.UserType.USER); //CHANGE THIS!!!!
+                password.getText().toString(), userType);
 
         boolean nameEmpty = name.getText().toString().equals("");
         boolean emailEmpty = email.getText().toString().equals("");
@@ -102,8 +103,8 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
 
         boolean passwordLengthOkay = password.getText().toString().length() >= 8;
 
-        // PERSISTANCE!!
-
+//        // PERSISTANCE!!
+//
         if (nameEmpty || emailEmpty || passwordEmpty || confirmPasswordEmpty) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Missing Entry!");

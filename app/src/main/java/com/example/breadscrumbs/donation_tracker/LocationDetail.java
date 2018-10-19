@@ -7,15 +7,21 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Button;
 
 import Model.Location;
 import Model.LocationDetailModel;
 import Model.LocationSQLiteDBHandler;
+import Model.SQLiteDatabaseHandler;
+import Model.User;
 
 public class LocationDetail extends AppCompatActivity {
 
     LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
+    SQLiteDatabaseHandler usersDb = MainActivity.getDb();
+
     Location currentLocation = null;
+    String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +37,19 @@ public class LocationDetail extends AppCompatActivity {
         //Get current location and set the instance variable
         Intent intent = getIntent();
         String key = intent.getStringExtra("Location Key");
+        userEmail = intent.getStringExtra("email");
+        System.out.println("Location detail eamil: " + userEmail);
         currentLocation = db.getLocation(key);
+
+        Button view = findViewById(R.id.viewDonations);
+        Button add = findViewById(R.id.addDonation);
+
+        System.out.println("user type" + usersDb.getUser(userEmail).getUserType());
+
+        if (usersDb.getUser(userEmail).getUserType() == User.UserType.USER) {
+            view.setVisibility(View.GONE);
+            add.setVisibility(View.GONE);
+        }
 
         loadTV();
     }

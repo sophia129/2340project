@@ -31,6 +31,7 @@ public class location extends AppCompatActivity {
     // Variables/Constants
     public static String TAG = "MY_APP";
     public ListView locationsLV;
+    String userEmail;
 
 
     @Override
@@ -41,6 +42,10 @@ public class location extends AppCompatActivity {
         // Use these lines to hide the action bar for each page
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
+
+        Intent intent = getIntent();
+        userEmail = intent.getStringExtra("email");
+        System.out.println("email in location: " + userEmail);
 
         locationModel.readLocationData(getResources().openRawResource(R.raw.locationdata));
 
@@ -84,6 +89,7 @@ public class location extends AppCompatActivity {
 
                 Intent newIntent = new Intent(outerContext, LocationDetail.class);
                 newIntent.putExtra("Location Key", key);
+                newIntent.putExtra("email", userEmail);
                 startActivity(newIntent);
             }
         });

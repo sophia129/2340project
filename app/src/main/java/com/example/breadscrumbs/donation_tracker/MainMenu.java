@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 public class MainMenu extends AppCompatActivity {
+    String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,10 @@ public class MainMenu extends AppCompatActivity {
         actionBar.hide();
 
         setContentView(R.layout.activity_main_menu);
+
+        Intent intent = getIntent();
+        userEmail = intent.getStringExtra("email");
+        System.out.println("Email in main menu: " + userEmail);
     }
 
     /**
@@ -31,6 +36,7 @@ public class MainMenu extends AppCompatActivity {
      */
     public void ClickedLocationButton(View view) {
         Intent newIntent = new Intent(this, location.class);
+        newIntent.putExtra("email", userEmail);
         startActivity(newIntent);
     }
 
