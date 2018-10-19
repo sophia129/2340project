@@ -137,8 +137,9 @@ public class NewDonation extends AppCompatActivity {
 //            dialog.show();
         } else {
             db.addDonation(toAdd, locationKey);
-//            Intent newIntent = new Intent(this, LocationDetail.class);
-//            startActivity(newIntent);
+            Intent newIntent = new Intent(this, LocationDetail.class);
+            newIntent.putExtra("Location Key", locationKey);
+            startActivity(newIntent);
         }
 
     }

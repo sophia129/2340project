@@ -1,6 +1,7 @@
 package com.example.breadscrumbs.donation_tracker;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -9,45 +10,74 @@ import android.text.method.MovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import Model.Location;
-import Model.LocationDetailModel;
-import Model.LocationSQLiteDBHandler;
+import Model.Donation;
+import Model.DonationDatabaseHandler;
 
 public class DonationList extends AppCompatActivity {
-    LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
-    Location currentLocation = null;
+    DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    String locationKey;
+    ListView DonationsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donation_detail);
+        setContentView(R.layout.activity_list_donations);
 
         // Use these lines to hide the action bar for each page
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        //Get current location and set the instance variable
         Intent intent = getIntent();
-        String key = intent.getStringExtra("Location Key");
-        currentLocation = db.getLocation(key);
+        locationKey = intent.getStringExtra("LocationKey");
 
-        loadTV();
+        //Get current location and set the instance variable
+        DonationsList = (ListView) findViewById(R.id.DonationsList);
+
+        loadLV();
+
     }
 
-    /**
-     * Fills the text view with all the attributes of the location;
-     * basically formatted to have a space separating different attributes.
-     * Acquires the key for the selected location from the intent as passed from
-     * the previous Activity
-     */
-    public void loadTV()
+    private void loadLV()
     {
-        String toShow = LocationDetailModel.returnContents(currentLocation);
-        TextView detailHolder = (TextView) findViewById(R.id.DetailHolder);
-        detailHolder.setMovementMethod(new ScrollingMovementMethod());
-        detailHolder.setText(toShow);
+        final String[] names = itemsAsList();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1, android.R.id.text1,
+                names);
+
+        DonationsList.setAdapter(arrayAdapter);
+
+        final Context outerContext = this;
+
+        DonationsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                String key = Integer.toString(position + 1);
+                Intent newIntent = new Intent(outerContext, DonationDetail.class);
+                newIntent.putExtra("Location Key", locationKey);
+                newIntent.putExtra("Item", (String) parent.getItemAtPosition(position));
+                startActivity(newIntent);
+            }
+        });
+
+    }
+    private String[] itemsAsList() {
+        String[] toReturn = new String[db.allItems(locationKey).size()];
+        int index = 0;
+        for (Donation donation : db.allItems(locationKey)) {
+            toReturn[index] = donation.getItem();
+            ++index;
+        }
+        return toReturn;
     }
 
     /**

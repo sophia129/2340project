@@ -73,6 +73,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE numKey="+key+"";
+        System.out.println(query);
 
         Cursor cursor = db.rawQuery(query, null);
 
@@ -108,6 +109,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         values.put(KEY_TYPE, location.getType());
         values.put(KEY_PHONE, location.getPhone());
         values.put(KEY_WEBSITE, location.getWebsite());
+
 
         db.insert(TABLE_NAME, null, values);
         db.close();

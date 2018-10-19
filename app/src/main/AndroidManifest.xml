@@ -19,6 +19,8 @@
         <activity android:name=".LogIn" />
         <activity android:name=".NewAccount" />
         <activity android:name=".NewDonation" />
+        <activity android:name=".DonationList" />
+        <activity android:name=".DonationDetail" />
         <activity android:name=".MainMenu" />
         <activity android:name=".location" />
         <activity android:name=".LocationDetail"></activity>

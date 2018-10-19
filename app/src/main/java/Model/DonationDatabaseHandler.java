@@ -97,27 +97,31 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         this.onCreate(sqLiteDatabase);
     }
 
-    /**
-     * Delete a User object from the database using key field -> email
-     * @param user
-     */
-//    public void deleteOne(User user) {
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_NAME, KEY_EMAIL + " = ?", new String[]{String.valueOf(user.getUserEmail())});
-//        db.close();
-//    }
 
-    /**
-     * Retrieves a user from the database
-     *
-     * @param email
-     * @return
-     */
+    public Donation getItem(String locationKey, String item) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + "T" + locationKey + " WHERE item= ?";
+        System.out.println("QUERY" +query);
+
+        Cursor cursor = db.rawQuery(query, new String[] {item});
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        Donation foundItem = new Donation(cursor.getString(0), cursor.getString(1),
+                cursor.getString(2), cursor.getString(3), null, cursor.getString(4));
+
+        cursor.close();
+        return foundItem;
+//        return null;
+    }
 
     /**
      * @return list of all users in the database
      */
-    public List<Donation> allUsers(String key) {
+    public List<Donation> allItems(String key) {
         List<Donation> items = new LinkedList<>();
         String query = "SELECT * FROM " + "T" + key;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -127,7 +131,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5));
+                        cursor.getString(2), cursor.getString(3), null, cursor.getString(4));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -147,6 +151,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_TIMESTAMP, item.getTimestamp());
         values.put(KEY_VALUE, item.getValue());
         values.put(KEY_CATEGORY, item.getCategory());
+
+        System.out.println(values);
 
         db.insert("T" + key, null, values);
         db.close();

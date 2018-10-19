@@ -40,4 +40,6 @@ public class Donation {
         return this.category;
     }
 
+    public String toString() { return this.item + "\n" + this.description+ "\n" + this.timestamp + "\n" + this.value + "\n" + this.location + "\n" + this.category + "\n"; }
+
 }

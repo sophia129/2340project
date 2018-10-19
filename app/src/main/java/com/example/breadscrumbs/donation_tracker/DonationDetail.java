@@ -1,5 +1,6 @@
 package com.example.breadscrumbs.donation_tracker;
 
+import java.util.List;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -8,14 +9,14 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import Model.Location;
-import Model.LocationDetailModel;
-import Model.LocationSQLiteDBHandler;
+import Model.Donation;
+import Model.DonationDatabaseHandler;
 
-public class LocationDetail extends AppCompatActivity {
+public class DonationDetail extends AppCompatActivity {
 
-    LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
-    Location currentLocation = null;
+    DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    String locationKey;
+    String item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,14 +27,15 @@ public class LocationDetail extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        setContentView(R.layout.activity_location_detail);
+        setContentView(R.layout.activity_donation_detail);
 
         //Get current location and set the instance variable
         Intent intent = getIntent();
-        String key = intent.getStringExtra("Location Key");
-        currentLocation = db.getLocation(key);
+        locationKey = intent.getStringExtra("Location Key");
+        item = intent.getStringExtra("Item");
+        Donation donation = db.getItem(locationKey, item);
 
-        loadTV();
+        loadTV(donation);
     }
 
     /**
@@ -42,27 +44,24 @@ public class LocationDetail extends AppCompatActivity {
      * Acquires the key for the selected location from the intent as passed from
      * the previous Activity
      */
-    public void loadTV()
+    public void loadTV(Donation currentItem)
     {
-        String toShow = LocationDetailModel.returnContents(currentLocation);
+        String toShow = returnContents(currentItem);
         TextView detailHolder = (TextView) findViewById(R.id.DetailHolder);
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);
     }
-    /* M7 handlers */
-    public void AddDonation(View view) {
+    public static String returnContents(Donation item)
+    {
+        String forTV = "";
 
-        Intent newIntent = new Intent(this, NewDonation.class);
-        newIntent.putExtra("Location", currentLocation.getName());
-        newIntent.putExtra("LocationKey", currentLocation.getKey());
-        startActivity(newIntent);
+        forTV += "Item\n" + item.getItem() + "\n\n";
+        forTV += "Description\n" + item.getDescription() + "\n\n";
+        forTV += "Timestamp\n" + item.getTimestamp() + "\n\n";
+        forTV += "Value\n" + item.getValue() + "\n\n";
+        forTV += "Category\n" + item.getCategory() + "\n\n";
 
-    }
-    public void ViewDonations(View view) {
-        Intent newIntent = new Intent(this, DonationList.class);
-        newIntent.putExtra("LocationKey", currentLocation.getKey());
-        startActivity(newIntent);
-
+        return forTV;
     }
 
     /**
