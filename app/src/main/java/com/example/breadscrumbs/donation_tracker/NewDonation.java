@@ -33,6 +33,7 @@ public class NewDonation extends AppCompatActivity {
     DonationDatabaseHandler db = MainActivity.getDonationsDb();
     String locationName = "";
     String locationKey = "";
+    String userEmail;
 
     /**
      *
@@ -50,6 +51,7 @@ public class NewDonation extends AppCompatActivity {
         Intent intent = getIntent();
         locationName = intent.getStringExtra("Location");
         locationKey = intent.getStringExtra("LocationKey");
+        userEmail = intent.getStringExtra("email");
 
         item = findViewById(R.id.item);
         description = findViewById(R.id.description);
@@ -139,6 +141,7 @@ public class NewDonation extends AppCompatActivity {
             db.addDonation(toAdd, locationKey);
             Intent newIntent = new Intent(this, LocationDetail.class);
             newIntent.putExtra("Location Key", locationKey);
+            newIntent.putExtra("email", userEmail);
             startActivity(newIntent);
         }
 

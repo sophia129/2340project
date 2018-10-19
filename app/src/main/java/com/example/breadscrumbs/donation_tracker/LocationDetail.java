@@ -38,7 +38,6 @@ public class LocationDetail extends AppCompatActivity {
         Intent intent = getIntent();
         String key = intent.getStringExtra("Location Key");
         userEmail = intent.getStringExtra("email");
-        System.out.println("Location detail eamil: " + userEmail);
         currentLocation = db.getLocation(key);
 
         Button view = findViewById(R.id.viewDonations);
@@ -73,6 +72,7 @@ public class LocationDetail extends AppCompatActivity {
         Intent newIntent = new Intent(this, NewDonation.class);
         newIntent.putExtra("Location", currentLocation.getName());
         newIntent.putExtra("LocationKey", currentLocation.getKey());
+        newIntent.putExtra("email", userEmail);
         startActivity(newIntent);
 
     }
