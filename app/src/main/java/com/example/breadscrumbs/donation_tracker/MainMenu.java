@@ -40,5 +40,9 @@ public class MainMenu extends AppCompatActivity {
         startActivity(newIntent);
     }
 
+    public void ClickedSearchButton(View view) {
+
+    }
+
 
 }
