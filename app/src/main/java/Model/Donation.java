@@ -1,8 +1,5 @@
 package Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 public class Donation {
 
     private String item;
@@ -12,6 +9,10 @@ public class Donation {
     private Location location;
     private String category;
     private String comments;
+
+
+    public Donation() {
+    }
 
     public Donation(String item, String description, String timestamp, String value, Location location, String category, String comments) {
         this.item = item;
@@ -42,6 +43,35 @@ public class Donation {
         return this.category;
     }
     public String getComments() { return this.comments; }
+
+    public void setItem(String item) {
+        this.item = item;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
 
     public String toString() { return this.item + "\n" + this.description+ "\n" + this.timestamp + "\n" + this.value + "\n" + this.location.getName() + "\n" + this.category + "\n" + this.comments; }
 

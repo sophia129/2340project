@@ -105,6 +105,12 @@ public class LocationDetail extends AppCompatActivity {
 
     }
 
+    public void ClickedSearchButton(View view) {
+        Intent newIntent = new Intent(this, Search_Options.class);
+        newIntent.putExtra("email", userEmail);
+        startActivity(newIntent);
+    }
+
     /**
      * Handles back press click; takes user back to MainActivity
      */

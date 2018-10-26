@@ -5,14 +5,13 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-
-import Model.Donation;
 
 public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
@@ -83,6 +82,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_4);
         sqLiteDatabase.execSQL(CREATE_TABLE_5);
         sqLiteDatabase.execSQL(CREATE_TABLE_6);
+//        sqLiteDatabase.execSQL(CREATE_TABLE_7);
     }
 
     /**
@@ -127,7 +127,85 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * @return list of all donations in the database
+     *
+     * @param item name of the item that's being searched for
+     * @return the particular donation item
+     */
+    public List<Donation> getPotentialItem(String item) {
+
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = COLUMNS;
+        String tableName = "T1";
+
+        qb.setTables(tableName);
+        Cursor cursor = qb.query(db, sqlSelect, "Name LIKE ?", new String[] {"%" +item+ "%"}, null, null,  null);
+        List<Donation> result = new ArrayList<>();
+        if(cursor.moveToFirst()) {
+            do{
+                Donation donation = new Donation();
+                donation.setItem(cursor.getString(cursor.getColumnIndex("item")));
+                donation.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                donation.setTimestamp(cursor.getString(cursor.getColumnIndex("timestamp")));
+                donation.setValue(cursor.getString(cursor.getColumnIndex("value")));
+                donation.setLocation(dbLocations.getLocation(cursor.getString(4)));
+                donation.setCategory(cursor.getString(cursor.getColumnIndex("category")));
+                donation.setComments(cursor.getString(cursor.getColumnIndex("comments")));
+
+                result.add(donation);
+            } while (cursor.moveToNext());
+        }
+        return result;
+    }
+
+    public List<Donation> getAllDonationItems() {
+
+        SQLiteDatabase db = getReadableDatabase();
+        SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
+
+        String[] sqlSelect = COLUMNS;
+        String tableName = TABLE_1;
+
+        qb.setTables(tableName);
+        Cursor cursor = qb.query(db, sqlSelect, null, null, null, null, null);
+        List<Donation> result = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+               Donation donation = new Donation();
+                donation.setItem(cursor.getString(cursor.getColumnIndex("item")));
+                donation.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                donation.setTimestamp(cursor.getString(cursor.getColumnIndex("timestamp")));
+                donation.setValue(cursor.getString(cursor.getColumnIndex("value")));
+                donation.setLocation(dbLocations.getLocation(cursor.getString(4)));
+                donation.setCategory(cursor.getString(cursor.getColumnIndex("category")));
+                donation.setComments(cursor.getString(cursor.getColumnIndex("comments")));
+
+                result.add(donation);
+            } while (cursor.moveToNext());
+        }
+        return result;
+
+//        List<Donation> items = new LinkedList<>();
+//        String query = "SELECT * FROM " + TABLE_1;
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        Cursor cursor = db.rawQuery(query, null);
+//        Donation item = null;
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                item = new Donation(cursor.getString(0), cursor.getString(1),
+//                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
+//                items.add(item);
+//            } while (cursor.moveToNext());
+//        }
+//
+//        return items;
+    }
+
+
+    /**
+     * @return list of all donations in the database for a particular location
      */
     public List<Donation> allItems(String key) {
         List<Donation> items = new LinkedList<>();

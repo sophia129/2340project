@@ -23,7 +23,10 @@
         <activity android:name=".DonationDetail" />
         <activity android:name=".MainMenu" />
         <activity android:name=".location" />
-        <activity android:name=".LocationDetail"></activity>
+        <activity android:name=".LocationDetail" />
+        <activity android:name=".Search_Options" />
+        <activity android:name=".Search_Category" />
+        <activity android:name=".Search_Name"></activity>
     </application>
 
 </manifest>

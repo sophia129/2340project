@@ -40,8 +40,14 @@ public class MainMenu extends AppCompatActivity {
         startActivity(newIntent);
     }
 
+    /**
+     * Handles search button
+     * @param view
+     */
     public void ClickedSearchButton(View view) {
-
+        Intent newIntent = new Intent(this, Search_Options.class);
+        newIntent.putExtra("email", userEmail);
+        startActivity(newIntent);
     }
 
 
