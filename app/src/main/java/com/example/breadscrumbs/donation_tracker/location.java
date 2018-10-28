@@ -39,10 +39,6 @@ public class location extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
-        // Use these lines to hide the action bar for each page
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         Intent intent = getIntent();
         userEmail = intent.getStringExtra("email");
         System.out.println("email in location: " + userEmail);

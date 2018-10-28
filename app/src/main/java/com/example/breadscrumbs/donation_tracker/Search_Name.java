@@ -1,6 +1,7 @@
 package com.example.breadscrumbs.donation_tracker;
 
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,32 +22,20 @@ import Model.DonationDatabaseHandler;
 
 public class Search_Name extends AppCompatActivity {
 
-    DonationDatabaseHandler db;
-
-    String locationKey;
-    String userEmail;
-    ListView DonationsList;
+    DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    String key;
 
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     SearchAdapter adapter;
 
     MaterialSearchBar materialSearchBar;
-    List<Donation> suggestList = new ArrayList<>();
+    List<String> suggestList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search__name);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
-        //Get current location and set the instance variable
-//        Intent intent = getIntent();
-//        userEmail = intent.getStringExtra("email");
-//        locationKey = intent.getStringExtra("Location Key");
-
 
         //init view
         recyclerView = (RecyclerView)findViewById(R.id.recycler_search);
@@ -55,7 +44,6 @@ public class Search_Name extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         materialSearchBar  = (MaterialSearchBar)findViewById(R.id.search_bar);
-
 
         //init DB for donations
         db = new DonationDatabaseHandler(this);
@@ -75,9 +63,9 @@ public class Search_Name extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                List<Donation> suggest = new ArrayList<>();
-                for(Donation search: suggestList) {
-                    if (search.getItem().toLowerCase().contains(materialSearchBar.getText().toLowerCase())) {
+                List<String> suggest = new ArrayList<>();
+                for(String search: suggestList) {
+                    if (search.toLowerCase().contains(materialSearchBar.getText().toLowerCase())) {
                         suggest.add(search);
                     }
 
@@ -94,7 +82,8 @@ public class Search_Name extends AppCompatActivity {
             @Override
             public void onSearchStateChanged(boolean enabled) {
                 if(!enabled) {
-                    recyclerView.setAdapter(adapter);
+                   adapter = new SearchAdapter(getBaseContext(), db.getAllDonationItems());
+                   recyclerView.setAdapter(adapter);
                 }
             }
 
@@ -105,13 +94,19 @@ public class Search_Name extends AppCompatActivity {
 
             @Override
             public void onButtonClicked(int buttonCode) {
+                switch (buttonCode){
+
+                }
 
             }
         });
 
+        materialSearchBar.OnItemClickListener(int position,) {
+
+        }
+
 
         //Init Adapter default set all result
-
         adapter = new SearchAdapter(this, db.getAllDonationItems());
         recyclerView.setAdapter(adapter);
     }
@@ -123,7 +118,7 @@ public class Search_Name extends AppCompatActivity {
     }
 
     public void loadSuggestList() {
-        suggestList = db.getAllDonationItems();
+        suggestList = db.getAllDonationItemNames();
         materialSearchBar.setLastSuggestions(suggestList);
     }
 

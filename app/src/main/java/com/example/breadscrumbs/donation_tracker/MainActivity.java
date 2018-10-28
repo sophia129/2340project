@@ -21,10 +21,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Use these lines to hide the action bar for each page
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         db = new SQLiteDatabaseHandler(this);
 
         dbLocations = new LocationSQLiteDBHandler(this);

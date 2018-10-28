@@ -47,10 +47,7 @@ public class NewDonation extends AppCompatActivity {
      **/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
+        super.onCreate(savedInstanceState);;
 
         setContentView(R.layout.activity_add_donation);
 

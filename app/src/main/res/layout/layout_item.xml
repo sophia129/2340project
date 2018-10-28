@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
         
         <ImageView
-            android:src="@drawable/ic_style_black_24dp"
+            android:src="@drawable/ic_shopping_basket_black_24dp"
             android:layout_width="70dp"
             android:layout_height="70dp" />
 
@@ -56,8 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-                      <!--<TextView-->
-            <!--android:id="@+id/Locations" -->
+            <!--<TextView-->
+            <!--android:id="@+id/Locations"-->
             <!--android:layout_marginLeft="10dp"-->
             <!--android:gravity="center_vertical|start"-->
             <!--android:textAllCaps="true"-->

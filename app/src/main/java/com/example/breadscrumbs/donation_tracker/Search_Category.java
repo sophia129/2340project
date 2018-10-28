@@ -19,9 +19,6 @@ public class Search_Category extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search__category);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         Intent intent = getIntent();
         locationKey = intent.getStringExtra("LocationKey");
     }

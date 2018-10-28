@@ -22,7 +22,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder {
         item = (TextView)itemView.findViewById(R.id.item);
         value = (TextView)itemView.findViewById(R.id.value);
         category = (TextView)itemView.findViewById(R.id.category);
-//        Locations = (TextView)itemView.findViewById(R.id.Locations);
+//        locations = (TextView)itemView.findViewById(R.id.Locations);
     }
 
 }
@@ -40,7 +40,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
     @Override
     public SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View itemView = inflater.inflate(R.layout.layout_item,parent,false);
+        View itemView = inflater.inflate(R.layout.layout_item, parent,false);
         return new SearchViewHolder(itemView);
     }
 
@@ -50,7 +50,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder> {
         holder.item.setText(donation.get(position).getItem());
         holder.value.setText(donation.get(position).getValue());
         holder.category.setText(donation.get(position).getCategory());
-//        holder.Locations.setText(donation.get(position).getLocations());
+//        holder.locations.setText(donation.get(position).getLocation().getName());
 
 
     }

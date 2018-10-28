@@ -26,9 +26,6 @@ public class Search_Options extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_options);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         Intent intent = getIntent();
         userEmail = intent.getStringExtra("email");
         System.out.println("email in location: " + userEmail);

@@ -32,10 +32,6 @@ public class LocationDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Use these lines to hide the action bar for each page
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         setContentView(R.layout.activity_location_detail);
 
         //Get current location and set the instance variable
@@ -108,6 +104,7 @@ public class LocationDetail extends AppCompatActivity {
     public void ClickedSearchButton(View view) {
         Intent newIntent = new Intent(this, Search_Options.class);
         newIntent.putExtra("email", userEmail);
+        newIntent.putExtra("Location Key", key);
         startActivity(newIntent);
     }
 

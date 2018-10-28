@@ -24,6 +24,15 @@ public class Donation {
         this.comments = comments;
     }
 
+    public Donation(String item, String description, String timestamp, String value, String category, String comments) {
+        this.item = item;
+        this.description = description;
+        this.timestamp = timestamp;
+        this.value = value;
+        this.category = category;
+        this.comments = comments;
+    }
+
     public String getItem() {
         return this.item;
     }

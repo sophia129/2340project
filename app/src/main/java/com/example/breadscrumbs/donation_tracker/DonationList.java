@@ -28,10 +28,6 @@ public class DonationList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_donations);
 
-        // Use these lines to hide the action bar for each page
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-
         Intent intent = getIntent();
         locationKey = intent.getStringExtra("LocationKey");
 
