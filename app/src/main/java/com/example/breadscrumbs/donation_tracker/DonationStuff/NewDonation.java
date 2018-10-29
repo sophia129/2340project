@@ -1,4 +1,4 @@
-package com.example.breadscrumbs.donation_tracker;
+package com.example.breadscrumbs.donation_tracker.DonationStuff;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Spinner;
+
+import com.example.breadscrumbs.donation_tracker.MainActivity;
+import com.example.breadscrumbs.donation_tracker.R;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -112,6 +115,7 @@ public class NewDonation extends AppCompatActivity {
             dialog.show();
         } else {
             db.addDonation(toAdd, locationKey);
+            db.addDonation(toAdd);
             onBackPressed();
         }
 

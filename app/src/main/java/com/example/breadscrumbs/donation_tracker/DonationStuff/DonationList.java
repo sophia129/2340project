@@ -1,19 +1,17 @@
-package com.example.breadscrumbs.donation_tracker;
+package com.example.breadscrumbs.donation_tracker.DonationStuff;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.method.MovementMethod;
-import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.example.breadscrumbs.donation_tracker.DonationStuff.DonationDetail;
+import com.example.breadscrumbs.donation_tracker.MainActivity;
+import com.example.breadscrumbs.donation_tracker.R;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;

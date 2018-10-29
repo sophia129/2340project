@@ -56,15 +56,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/Locations"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:gravity="center_vertical|start"-->
-            <!--android:textAllCaps="true"-->
-            <!--android:textStyle="normal"-->
-            <!--android:text="AFD Station 4"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content" />-->
+            <TextView
+            android:id="@+id/Locations"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_vertical|start"
+            android:textAllCaps="true"
+            android:textStyle="normal"
+            android:text="AFD Station 4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
         </LinearLayout>

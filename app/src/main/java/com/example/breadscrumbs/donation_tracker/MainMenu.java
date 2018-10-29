@@ -1,10 +1,12 @@
 package com.example.breadscrumbs.donation_tracker;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.breadscrumbs.donation_tracker.LocationStuff.location;
+import com.example.breadscrumbs.donation_tracker.SearchStuff.Search_Options;
 
 public class MainMenu extends AppCompatActivity {
     String userEmail;

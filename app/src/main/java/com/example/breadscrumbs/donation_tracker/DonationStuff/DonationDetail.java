@@ -1,4 +1,4 @@
-package com.example.breadscrumbs.donation_tracker;
+package com.example.breadscrumbs.donation_tracker.DonationStuff;
 
 import java.util.List;
 import android.content.Intent;
@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.breadscrumbs.donation_tracker.MainActivity;
+import com.example.breadscrumbs.donation_tracker.R;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;

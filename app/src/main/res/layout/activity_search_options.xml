@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Search_Options">
+    tools:context=".SearchStuff.Search_Options">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -3,8 +3,7 @@ package Model;
 import android.util.Log;
 
 import com.example.breadscrumbs.donation_tracker.MainActivity;
-import com.example.breadscrumbs.donation_tracker.R;
-import com.example.breadscrumbs.donation_tracker.location;
+import com.example.breadscrumbs.donation_tracker.LocationStuff.location;
 
 import java.io.BufferedReader;
 import java.io.IOException;

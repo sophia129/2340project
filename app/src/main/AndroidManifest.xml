@@ -18,15 +18,15 @@
         </activity>
         <activity android:name=".LogIn" />
         <activity android:name=".NewAccount" />
-        <activity android:name=".NewDonation" />
-        <activity android:name=".DonationList" />
-        <activity android:name=".DonationDetail" />
+        <activity android:name=".DonationStuff.NewDonation" />
+        <activity android:name=".DonationStuff.DonationList" />
+        <activity android:name=".DonationStuff.DonationDetail" />
         <activity android:name=".MainMenu" />
-        <activity android:name=".location" />
-        <activity android:name=".LocationDetail" />
-        <activity android:name=".Search_Options" />
-        <activity android:name=".Search_Category" />
-        <activity android:name=".Search_Name"></activity>
+        <activity android:name=".LocationStuff.location" />
+        <activity android:name=".LocationStuff.LocationDetail" />
+        <activity android:name=".SearchStuff.Search_Options" />
+        <activity android:name=".SearchStuff.Search_Category" />
+        <activity android:name=".SearchStuff.Search_Names"></activity>
     </application>
 
 </manifest>

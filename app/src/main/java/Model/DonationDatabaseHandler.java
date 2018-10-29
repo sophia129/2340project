@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteQueryBuilder;
 
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 
+import org.w3c.dom.DOMImplementation;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,6 +28,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_4 = "T4";
     private static final String TABLE_5 = "T5";
     private static final String TABLE_6 = "T6";
+    private static final String TABLE_7 = "T7";
 
     private static final String KEY_ITEM = "item";
     private static final String KEY_DESCRIPTION = "description";
@@ -51,6 +54,9 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
             KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
             KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
     String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_6 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
+            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
+            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
+    String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_7 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
             KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
             KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
 
@@ -82,6 +88,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_TABLE_4);
         sqLiteDatabase.execSQL(CREATE_TABLE_5);
         sqLiteDatabase.execSQL(CREATE_TABLE_6);
+        sqLiteDatabase.execSQL(CREATE_TABLE_7);
     }
 
     /**
@@ -99,6 +106,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_4);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_5);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_6);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_7);
         this.onCreate(sqLiteDatabase);
     }
 
@@ -132,20 +140,15 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
      */
     public List<Donation> getPotentialItem(String Item) {
         List<Donation> items = new LinkedList<>();
-        String query = "SELECT * FROM " + TABLE_1 + " WHERE item LIKE ?"
-                + " UNION ALL "  + "SELECT * FROM " + TABLE_2 + " WHERE item LIKE ?"
-                + " UNION ALL "  + "SELECT * FROM " + TABLE_3 + " WHERE item LIKE ?"
-                + " UNION ALL "  + "SELECT * FROM " + TABLE_4 + " WHERE item LIKE ?"
-                + " UNION ALL "  + "SELECT * FROM " + TABLE_5 + " WHERE item LIKE ?"
-                + " UNION ALL "  + "SELECT * FROM " + TABLE_6 + " WHERE item LIKE ?";
+        String query = "SELECT * FROM " + TABLE_7 + " WHERE item= ?";
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, new String[] {"%" + Item + "%"});
+        Cursor cursor = db.rawQuery(query, new String[] {Item});
         Donation potentialItem = null;
 
         if (cursor.moveToFirst()) {
             do {
                 potentialItem = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(5), cursor.getString(6));
+                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
                 items.add(potentialItem);
             } while (cursor.moveToNext());
         }
@@ -160,12 +163,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     public List<Donation> getAllDonationItems() {
 
         List<Donation> items = new LinkedList<>();
-        String query = "SELECT * FROM " + TABLE_1
-                + " UNION ALL"  + " SELECT * FROM " + TABLE_2
-                + " UNION ALL"  + " SELECT * FROM " + TABLE_3
-                + " UNION ALL"  + " SELECT * FROM " + TABLE_4
-                + " UNION ALL"  + " SELECT * FROM " + TABLE_5
-                + " UNION ALL"  + " SELECT * FROM " + TABLE_6;
+        String query = "SELECT * FROM " + TABLE_7;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -174,7 +172,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(5), cursor.getString(6));
+                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -188,13 +186,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
      */
     public List<String> getAllDonationItemNames() {
         List<String> result = new ArrayList<>();
-        String query = "SELECT item FROM " + TABLE_1
-                + " UNION ALL"  + " SELECT item FROM " + TABLE_2
-                + " UNION ALL"  + " SELECT item FROM " + TABLE_3
-                + " UNION ALL"  + " SELECT item FROM " + TABLE_4
-                + " UNION ALL"  + " SELECT item FROM " + TABLE_5
-                + " UNION ALL"  + " SELECT item FROM " + TABLE_6;
-
+        String query = "SELECT item FROM " + TABLE_7;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
@@ -229,6 +221,23 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         return items;
     }
 
+    public List<Donation> getCategoryItems(String category) {
+        List<Donation> items = new LinkedList<>();
+        String query = "SELECT * FROM " + TABLE_7 + " WHERE category= ?";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[] {category});
+        Donation item = null;
+        if (cursor.moveToFirst()) {
+            do {
+                item = new Donation(cursor.getString(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        return items;
+    }
+
     /**
      * Adds a donation to the database
      * @param item
@@ -247,6 +256,25 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         System.out.println(values);
 
         db.insert("T" + key, null, values);
+        db.close();
+
+    }
+
+    public void addDonation(Donation item) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(KEY_ITEM, item.getItem());
+        values.put(KEY_DESCRIPTION, item.getDescription());
+        values.put(KEY_TIMESTAMP, item.getTimestamp());
+        values.put(KEY_VALUE, item.getValue());
+        values.put(KEY_LOCATION, item.getLocation().getKey());
+        values.put(KEY_CATEGORY, item.getCategory());
+        values.put(KEY_COMMENTS, item.getComments());
+
+        System.out.println(values);
+
+        db.insert("T7", null, values);
         db.close();
 
     }

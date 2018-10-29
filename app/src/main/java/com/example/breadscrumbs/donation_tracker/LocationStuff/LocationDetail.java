@@ -1,7 +1,6 @@
-package com.example.breadscrumbs.donation_tracker;
+package com.example.breadscrumbs.donation_tracker.LocationStuff;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -11,6 +10,12 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Button;
+
+import com.example.breadscrumbs.donation_tracker.DonationStuff.DonationList;
+import com.example.breadscrumbs.donation_tracker.MainActivity;
+import com.example.breadscrumbs.donation_tracker.DonationStuff.NewDonation;
+import com.example.breadscrumbs.donation_tracker.R;
+import com.example.breadscrumbs.donation_tracker.SearchStuff.Search_Options;
 
 import Model.Location;
 import Model.LocationDetailModel;
