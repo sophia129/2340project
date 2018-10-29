@@ -36,28 +36,38 @@
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
             android:gravity="center"
             android:onClick="ClickedBackButton"
             android:text="&lt;"
             android:textColor="#666"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:typeface="serif" />
 
     </RelativeLayout>
     <ListView
         android:id="@+id/category"
         android:layout_width="match_parent"
-        android:layout_height="216dp" />
+        android:layout_height="216dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#EEEEEE"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#000000"/>
 
     <ListView
         android:id="@+id/donationItems"
         android:layout_width="match_parent"
         android:layout_height="226dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
 
 </LinearLayout>
 

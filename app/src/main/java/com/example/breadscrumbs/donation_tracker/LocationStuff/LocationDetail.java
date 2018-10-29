@@ -43,14 +43,11 @@ public class LocationDetail extends AppCompatActivity {
         Intent intent = getIntent();
         key = intent.getStringExtra("Location Key");
         userEmail = intent.getStringExtra("email");
-        System.out.println("Location detail email: " + userEmail);
-        Log.d("Key", key);
+
         currentLocation = db.getLocation(key);
 
         Button view = findViewById(R.id.viewDonations);
         Button add = findViewById(R.id.addDonation);
-
-        System.out.println("user type" + usersDb.getUser(userEmail).getUserType());
 
         detailHolder = (TextView) findViewById(R.id.DetailHolder);
 
@@ -60,14 +57,16 @@ public class LocationDetail extends AppCompatActivity {
 
         RelativeLayout topLayout = (RelativeLayout) findViewById(R.id.topLayout);
 
-        int forTV = height - (topLayout.getLayoutParams().height * 2);
+        final int sizingConstantForSpacing = 20;
+        int forTV = height - (topLayout.getLayoutParams().height * 2 + add.getLayoutParams().height - sizingConstantForSpacing);
 
         if (usersDb.getUser(userEmail).getUserType() == User.UserType.USER) {
             view.setVisibility(View.GONE);
             add.setVisibility(View.GONE);
         } else {
             // 1.2 multipliers to approximately account for spacing between them
-            forTV -= (view.getLayoutParams().height + add.getLayoutParams().height);
+            final double sizingMultiplierForSpacing = 1.1;
+            forTV -= (view.getLayoutParams().height + add.getLayoutParams().height) * sizingMultiplierForSpacing;
         }
 
 
@@ -90,7 +89,10 @@ public class LocationDetail extends AppCompatActivity {
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);
     }
-    /* M7 handlers */
+
+    /**
+     * Responsible for starting the NewDonation activity; loads up intents
+     */
     public void AddDonation(View view) {
 
         Intent newIntent = new Intent(this, NewDonation.class);
@@ -99,6 +101,10 @@ public class LocationDetail extends AppCompatActivity {
         startActivity(newIntent);
 
     }
+
+    /**
+     * Responsible for starting the DonationList activity; loads up intents
+     */
     public void ViewDonations(View view) {
         Intent newIntent = new Intent(this, DonationList.class);
         newIntent.putExtra("LocationKey", currentLocation.getKey());
@@ -106,6 +112,9 @@ public class LocationDetail extends AppCompatActivity {
 
     }
 
+    /**
+     * Responsible for starting the Search_Options activity; loads up intents
+     */
     public void ClickedSearchButton(View view) {
         Intent newIntent = new Intent(this, Search_Options.class);
         newIntent.putExtra("email", userEmail);

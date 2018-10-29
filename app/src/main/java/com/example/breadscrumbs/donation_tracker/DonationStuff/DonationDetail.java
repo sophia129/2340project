@@ -21,6 +21,9 @@ public class DonationDetail extends AppCompatActivity {
     String locationKey;
     String item;
 
+    /**
+     * Gets the extras from the DonationList activity and calls the load up method for the text view
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

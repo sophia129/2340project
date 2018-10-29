@@ -21,6 +21,9 @@ public class location extends AppCompatActivity {
     String userEmail;
 
 
+    /**
+     * Gets the extras from the main menu intent and calls the load up method for the list view
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +31,6 @@ public class location extends AppCompatActivity {
 
         Intent intent = getIntent();
         userEmail = intent.getStringExtra("email");
-        System.out.println("email in location: " + userEmail);
 
         locationModel.readLocationData(getResources().openRawResource(R.raw.locationdata));
 
@@ -44,14 +46,6 @@ public class location extends AppCompatActivity {
     private void loadLV()
     {
         final String[] names = Model.locationModel.returnLocationNames();
-
-        /*
-        int index = 0;
-        for (String name: names) {
-            Log.d("Name" + index, name);
-            ++index;
-        }
-        */
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,

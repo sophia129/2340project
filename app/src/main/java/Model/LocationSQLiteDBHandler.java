@@ -73,7 +73,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE numKey="+key+"";
-        System.out.println(query);
+        //System.out.println(query);
 
         Cursor cursor = db.rawQuery(query, null);
 

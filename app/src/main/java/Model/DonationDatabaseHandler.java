@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.util.Log;
 
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 
@@ -117,7 +118,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "SELECT * FROM " + "T" + locationKey + " WHERE item= ?";
-        System.out.println("QUERY" +query);
+        //System.out.println("QUERY" +query);
 
         Cursor cursor = db.rawQuery(query, new String[] {item});
 
@@ -136,20 +137,31 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     /**
      * finds a particular item from all locations
      * @param Item name of the item that's being searched for
+     * @param location The chosen location to search (null if for all locations)
      * @return the particular donation item
      */
-    public List<Donation> getPotentialItem(String Item) {
+    public List<Donation> getPotentialItem(String Item, Location location) {
+
+        boolean useLocation = (location != null);
         List<Donation> items = new LinkedList<>();
-        String query = "SELECT * FROM " + TABLE_7 + " WHERE item= ?";
+        Log.d("Item", Item);
+        //String query = "SELECT * FROM " + TABLE_7 + " WHERE item= ?";
+        String query = "SELECT * FROM " + TABLE_7;
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, new String[] {Item});
+        //Cursor cursor = db.rawQuery(query, new String[] {Item});
+        Cursor cursor = db.rawQuery(query, null);
         Donation potentialItem = null;
 
         if (cursor.moveToFirst()) {
             do {
                 potentialItem = new Donation(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
-                items.add(potentialItem);
+                if (potentialItem.getItem().toLowerCase().contains(Item.toLowerCase()) ) {
+                    Log.d("Item Location", potentialItem.getLocation().getName());
+                    if (!useLocation || potentialItem.getLocation().getKey().equals(location.getKey())) {
+                        items.add(potentialItem);
+                    }
+                }
             } while (cursor.moveToNext());
         }
 
@@ -227,7 +239,10 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         return items;
     }
 
-    public List<Donation> getCategoryItems(String Category) {
+    public List<Donation> getCategoryItems(String Category, Location location) {
+
+        boolean useLocation = (location != null);
+
         List<Donation> items = new LinkedList<>();
         String query = "SELECT * FROM " + TABLE_7 + " WHERE category= ?";
         SQLiteDatabase db = this.getWritableDatabase();
@@ -237,7 +252,9 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
-                items.add(item);
+                if (!useLocation || item.getLocation().getKey().equals(location.getKey())) {
+                    items.add(item);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -259,7 +276,6 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_CATEGORY, item.getCategory());
         values.put(KEY_COMMENTS, item.getComments());
 
-        System.out.println(values);
 
         db.insert("T" + key, null, values);
         db.close();
@@ -277,8 +293,6 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_LOCATION, item.getLocation().getKey());
         values.put(KEY_CATEGORY, item.getCategory());
         values.put(KEY_COMMENTS, item.getComments());
-
-        System.out.println(values);
 
         db.insert("T7", null, values);
         db.close();

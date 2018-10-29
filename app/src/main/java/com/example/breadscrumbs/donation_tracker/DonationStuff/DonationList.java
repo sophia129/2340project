@@ -21,6 +21,9 @@ public class DonationList extends AppCompatActivity {
     String locationKey;
     ListView DonationsList;
 
+    /**
+     * Gets the extras from the LocationDetail activity and calls the load up method for the list view
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,6 @@ public class DonationList extends AppCompatActivity {
         DonationsList = (ListView) findViewById(R.id.DonationsList);
 
         loadLV();
-
     }
 
     /**

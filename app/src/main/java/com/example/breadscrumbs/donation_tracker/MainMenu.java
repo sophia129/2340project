@@ -11,6 +11,9 @@ import com.example.breadscrumbs.donation_tracker.SearchStuff.Search_Options;
 public class MainMenu extends AppCompatActivity {
     String userEmail;
 
+    /**
+     * Gets the extras from the LogIn activity
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +22,6 @@ public class MainMenu extends AppCompatActivity {
 
         Intent intent = getIntent();
         userEmail = intent.getStringExtra("email");
-        System.out.println("Email in main menu: " + userEmail);
     }
 
     /**
@@ -45,6 +47,7 @@ public class MainMenu extends AppCompatActivity {
     public void ClickedSearchButton(View view) {
         Intent newIntent = new Intent(this, Search_Options.class);
         newIntent.putExtra("email", userEmail);
+        newIntent.putExtra("Location Key", "");
         startActivity(newIntent);
     }
 

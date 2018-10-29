@@ -134,8 +134,6 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_TYPE, user.getUserType().name());
         //values.put(KEY_TYPE, user.getUserType().getUserTypeString());
 
-        System.out.println(values);
-
         db.insert(TABLE_NAME, null, values);
         db.close();
     }

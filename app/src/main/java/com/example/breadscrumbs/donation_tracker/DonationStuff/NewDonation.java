@@ -45,9 +45,8 @@ public class NewDonation extends AppCompatActivity {
     String locationKey = "";
 
     /**
-     *
-     * @param savedInstanceState
-     **/
+     * Gets the extras from the LocationDetail activity and loads the category spinner with preset categories
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);;
@@ -56,8 +55,6 @@ public class NewDonation extends AppCompatActivity {
 
         Intent intent = getIntent();
         locationKey = intent.getStringExtra("Location Key");
-
-        Log.d("Key", locationKey);
 
         currentLocation = dbLocations.getLocation(locationKey);
 

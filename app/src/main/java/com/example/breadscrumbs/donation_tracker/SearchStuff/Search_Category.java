@@ -3,6 +3,7 @@ package com.example.breadscrumbs.donation_tracker.SearchStuff;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,15 +21,21 @@ import java.util.List;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;
+import Model.LocationSQLiteDBHandler;
 
 public class Search_Category extends AppCompatActivity {
 
     String locationKey;
     DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    LocationSQLiteDBHandler locationsDB = MainActivity.getLocationsDb();
 
     ListView category;
     ListView donationItems;
+    Model.Location location = null;
 
+    /**
+     * Gets the extras from the Search_Options activity and calls the load up method for the categories
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,13 +44,26 @@ public class Search_Category extends AppCompatActivity {
         category = findViewById(R.id.category);
         donationItems = findViewById(R.id.donationItems);
 
+        Intent intent = getIntent();
+        locationKey = intent.getStringExtra("Location Key");
+
+        if (!locationKey.equals("")) {
+            location = locationsDB.getLocation(locationKey);
+        }
+
         loadCategories();
     }
 
+    /**
+     * Handles back press click; takes user back to Search_Options activity
+     */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
 
+    /**
+     * Loads default categories into the upper listView (category); sets listener for clicks
+     */
     public void loadCategories() {
         final String[] categories = {"Clothing", "Hat", "Kitchen", "Electronics", "Household", "Other"};
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
@@ -58,18 +78,18 @@ public class Search_Category extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Log.d("position", categories[position]);
                 loadChildren(categories[position]);
 
             }
         });
     }
 
+    /**
+     * Loads donations into the lower listView (donationItems) for each category after it has been clicked; sets listener for clicks
+     */
     public void loadChildren(String category) {
-        Log.d("huzza", "got here");
         final String[] donationsItem = itemsAsList(category);
-        Log.d("huzza2", "got here");
-        final List<Donation> donations = db.getCategoryItems(category);
+        final List<Donation> donations = db.getCategoryItems(category, location);
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
@@ -77,6 +97,14 @@ public class Search_Category extends AppCompatActivity {
                 donationsItem);
 
         donationItems.setAdapter(arrayAdapter);
+
+        if (donationsItem.length == 0) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("No Results Detected");
+            dialog.setMessage("Please try another category.");
+            dialog.setPositiveButton("OK", null);
+            dialog.show();
+        }
 
         final Context outerContext = this;
 
@@ -86,12 +114,9 @@ public class Search_Category extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 String key = "";
-                for (Donation donation : donations) {
-                    if (donation.getCategory() == donationsItem[position]) {
-                        key = donation.getLocation().getKey();
-                    }
-                }
-                Log.d("foudn key", key);
+                Donation toUse = donations.get(position);
+                key = toUse.getLocation().getKey();
+
                 Intent newIntent = new Intent(outerContext, DonationDetail.class);
                 newIntent.putExtra("Location Key", key);
                 newIntent.putExtra("Item", (String) parent.getItemAtPosition(position));
@@ -101,12 +126,13 @@ public class Search_Category extends AppCompatActivity {
 
     }
 
-
-    private String[] itemsAsList(String item) {
-        Log.d("blah", item);
-        String[] toReturn = new String[db.getCategoryItems(item).size()];
+    /**
+     * Gets the list of items for a particular category as a string array (for adapter use)
+     */
+    private String[] itemsAsList(String category) {
+        String[] toReturn = new String[db.getCategoryItems(category, location).size()];
         int index = 0;
-        for (Donation donation : db.getCategoryItems(item)) {
+        for (Donation donation : db.getCategoryItems(category, location)) {
             toReturn[index] = donation.getItem();
             ++index;
         }

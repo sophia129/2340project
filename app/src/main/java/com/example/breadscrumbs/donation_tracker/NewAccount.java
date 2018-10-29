@@ -150,6 +150,7 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
         confirmPassword.setText("");
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -159,5 +160,6 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
     public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
+
 }
 
