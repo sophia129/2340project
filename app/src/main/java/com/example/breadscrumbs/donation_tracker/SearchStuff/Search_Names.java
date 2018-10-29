@@ -17,6 +17,8 @@ import com.example.breadscrumbs.donation_tracker.DonationStuff.DonationDetail;
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 import com.example.breadscrumbs.donation_tracker.R;
 
+import java.util.List;
+
 import Model.Donation;
 import Model.DonationDatabaseHandler;
 
@@ -47,6 +49,7 @@ public class Search_Names extends AppCompatActivity {
     private void loadInventory(String item) {
 
         final String[] items = itemsAsList(item);
+        final List<Donation> donations = db.getAllDonationItems();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
@@ -63,7 +66,7 @@ public class Search_Names extends AppCompatActivity {
 
                 int key = position + 1;
                 Intent newIntent = new Intent(outerContext, DonationDetail.class);
-
+                newIntent.putExtra("Location Key", donations.get(key).getLocation().getKey());
                 newIntent.putExtra("Item", (String) parent.getItemAtPosition(position));
                 startActivity(newIntent);
             }
