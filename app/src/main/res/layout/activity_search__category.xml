@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".SearchStuff.Search_Category">
 
-
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <RelativeLayout
         android:id="@+id/topLayout"
         android:layout_width="fill_parent"
@@ -42,24 +45,20 @@
             android:typeface="serif" />
 
     </RelativeLayout>
+    <ListView
+        android:id="@+id/category"
+        android:layout_width="match_parent"
+        android:layout_height="216dp" />
 
-    <RelativeLayout
-        android:layout_width="368dp"
-        android:layout_height="481dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="78dp">
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="226dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="255dp" />
+    <ListView
+        android:id="@+id/donationItems"
+        android:layout_width="match_parent"
+        android:layout_height="226dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp" />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="216dp" />
-    </RelativeLayout>
-
+</LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

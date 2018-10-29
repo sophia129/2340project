@@ -32,7 +32,6 @@ public class Search_Names extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search__names);
 
-        Intent intent = getIntent();
         inventory = findViewById(R.id.inventory);
     }
 
