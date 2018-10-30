@@ -23,13 +23,13 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
     LocationSQLiteDBHandler dbLocations = MainActivity.getLocationsDb();
 
-    private static final String TABLE_1 = "T1";
-    private static final String TABLE_2 = "T2";
-    private static final String TABLE_3 = "T3";
-    private static final String TABLE_4 = "T4";
-    private static final String TABLE_5 = "T5";
-    private static final String TABLE_6 = "T6";
-    private static final String TABLE_7 = "T7";
+    private static final String TABLE_1 = "T1"; //database for location 1
+    private static final String TABLE_2 = "T2"; //database for location 2
+    private static final String TABLE_3 = "T3"; //database for location 3
+    private static final String TABLE_4 = "T4"; //database for location 4
+    private static final String TABLE_5 = "T5"; //database for location 5
+    private static final String TABLE_6 = "T6"; //database for location 6
+    private static final String TABLE_7 = "T7"; //database compilation of all locations
 
     private static final String KEY_ITEM = "item";
     private static final String KEY_DESCRIPTION = "description";
@@ -145,10 +145,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         boolean useLocation = (location != null);
         List<Donation> items = new LinkedList<>();
         Log.d("Item", Item);
-        //String query = "SELECT * FROM " + TABLE_7 + " WHERE item= ?";
         String query = "SELECT * FROM " + TABLE_7;
         SQLiteDatabase db = this.getWritableDatabase();
-        //Cursor cursor = db.rawQuery(query, new String[] {Item});
         Cursor cursor = db.rawQuery(query, null);
         Donation potentialItem = null;
 
@@ -169,8 +167,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
-     *
-     * @return all items regardless of locations
+     * Queries into main database and finds all donations from all locations
+     * @return list of all items regardless of locations
      */
     public List<Donation> getAllDonationItems() {
 
@@ -199,11 +197,6 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     public List<String> getAllDonationItemNames() {
         List<String> result = new ArrayList<>();
         String query = "SELECT item FROM " + TABLE_7;
-//                + " UNION ALL"  + " SELECT item FROM " + TABLE_2
-////                + " UNION ALL"  + " SELECT item FROM " + TABLE_3
-////                + " UNION ALL"  + " SELECT item FROM " + TABLE_4
-////                + " UNION ALL"  + " SELECT item FROM " + TABLE_5
-////                + " UNION ALL"  + " SELECT item FROM " + TABLE_6;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
@@ -219,6 +212,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
 
     /**
+     *
      * @return list of all donations in the database for a particular location
      */
     public List<Donation> allItems(String key) {
@@ -238,6 +232,13 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
         return items;
     }
+
+    /**
+     * Query for finding donations from particular categories.
+     * @param Category the category being searched for
+     * @param location the locations the donation object currently is found at
+     * @return a list of donations that meet the category being searched for from all locations
+     */
 
     public List<Donation> getCategoryItems(String Category, Location location) {
 
@@ -281,6 +282,11 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         db.close();
 
     }
+
+    /**
+     *
+     * @param item the donation item being added
+     */
 
     public void addDonation(Donation item) {
 
