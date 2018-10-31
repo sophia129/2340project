@@ -29,6 +29,19 @@ public class locationModel {
     }
 
     /**
+     * Method that returns an array with all the names of the locations
+     */
+    public static Location[] returnLocations() {
+        Location[] toReturn = new Location[db.allLocations().size()];
+        int index = 0;
+        for (Location location : db.allLocations()) {
+            toReturn[index] = location;
+            ++index;
+        }
+        return toReturn;
+    }
+
+    /**
      * Reads in the data from the CSV file by parsing it by its commas;
      * takes these separated components to create a location that is added to the
      * local database of locations

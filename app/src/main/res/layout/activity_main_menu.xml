@@ -95,6 +95,24 @@
             tools:layout_editor_absoluteX="2sp"
             tools:layout_editor_absoluteY="398dp"/>
 
+        <Button
+            android:id="@+id/maps_button"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="View Map"
+            android:layout_below="@id/search_button"
+            android:fontFamily="sans-serif"
+            android:textSize="22sp"
+            android:textColor="#FFF"
+            android:background="#5555CC"
+            android:onClick="ClickedMapsButton"
+
+            tools:layout_editor_absoluteX="2sp"
+            tools:layout_editor_absoluteY="398dp"/>
+
     </RelativeLayout>
 
 

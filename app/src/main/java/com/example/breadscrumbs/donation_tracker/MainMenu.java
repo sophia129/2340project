@@ -51,5 +51,10 @@ public class MainMenu extends AppCompatActivity {
         startActivity(newIntent);
     }
 
+    public void ClickedMapsButton(View view) {
+        Intent newIntent = new Intent(this, MapsActivity.class);
+        startActivity(newIntent);
+    }
+
 
 }
