@@ -9,6 +9,7 @@ import android.view.View;
 import Model.LocationSQLiteDBHandler;
 import Model.SQLiteDatabaseHandler;
 import Model.DonationDatabaseHandler;
+import Model.locationModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         dbLocations = new LocationSQLiteDBHandler(this);
 
         dbDonations = new DonationDatabaseHandler(this);
+
+        // Handles location loading on start up
+        locationModel.readLocationData(getResources().openRawResource(R.raw.locationdata));
 
         setContentView(R.layout.activity_main);
     }

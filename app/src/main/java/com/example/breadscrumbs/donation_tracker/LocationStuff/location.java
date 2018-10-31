@@ -32,7 +32,7 @@ public class location extends AppCompatActivity {
         Intent intent = getIntent();
         userEmail = intent.getStringExtra("email");
 
-        locationModel.readLocationData(getResources().openRawResource(R.raw.locationdata));
+        // locationModel.readLocationData(getResources().openRawResource(R.raw.locationdata));
 
         locationsLV = (ListView) findViewById(R.id.LocationsLV);
 
