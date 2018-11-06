@@ -7,10 +7,13 @@ import android.view.View;
 
 import com.example.breadscrumbs.donation_tracker.R;
 
+/**
+ * Controller for selecting which type of search to perform
+ */
 public class Search_Options extends AppCompatActivity {
 
-    String userEmail = "";
-    String key;
+    private String userEmail = "";
+    private String key;
 
     /**
      * Gets the extras from the MainMenu/LocationDetail activity
@@ -27,6 +30,8 @@ public class Search_Options extends AppCompatActivity {
 
     /**
      * Responsible for starting the Search_Category activity; loads up intents
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedCategoryButton(View view) {
         Intent newIntent = new Intent(this, Search_Category.class);
@@ -37,6 +42,8 @@ public class Search_Options extends AppCompatActivity {
 
     /**
      * Responsible for starting the Search_Names activity; loads up intents
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedNameButton(View view) {
         Intent newIntent = new Intent(this, Search_Names.class);
@@ -46,7 +53,9 @@ public class Search_Options extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to MainMenu/LocationDetail activity
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();

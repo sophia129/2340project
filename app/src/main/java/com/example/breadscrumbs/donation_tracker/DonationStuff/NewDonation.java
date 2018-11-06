@@ -2,23 +2,18 @@ package com.example.breadscrumbs.donation_tracker.DonationStuff;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.Editable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Spinner;
 
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 import com.example.breadscrumbs.donation_tracker.R;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,29 +22,30 @@ import Model.Donation;
 import Model.Location;
 import Model.LocationSQLiteDBHandler;
 
-
+/**
+ * Handles the creation of a new donation by the user
+ */
 public class NewDonation extends AppCompatActivity {
 
     private EditText item;
     private EditText description;
     private EditText value;
-    private TextView location;
     private Spinner categorySpinner;
     private Location currentLocation;
     private EditText comments;
 
-    DonationDatabaseHandler db = MainActivity.getDonationsDb();
-    LocationSQLiteDBHandler dbLocations = MainActivity.getLocationsDb();
+    private final DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    private final LocationSQLiteDBHandler dbLocations = MainActivity.getLocationsDb();
 
-    String locationName = "";
-    String locationKey = "";
+    private String locationKey = "";
 
     /**
-     * Gets the extras from the LocationDetail activity and loads the category spinner with preset categories
+     * Gets the extras from the LocationDetail activity and loads the category
+     * spinner with preset categories
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);;
+        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_donation);
 
@@ -72,7 +68,7 @@ public class NewDonation extends AppCompatActivity {
         typeList.add("Household");
         typeList.add("Other");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, typeList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(adapter);
@@ -85,24 +81,38 @@ public class NewDonation extends AppCompatActivity {
     }
 
     /**
-     * This is responsible for creating a donation to add to the database from the filled in fields on the screen.
+     * This is responsible for creating a donation to add to the database from the filled
+     * in fields on the screen
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void createDonation(View view) {
 
-        boolean itemEmpty = item.getText().toString().equals("");
-        boolean descriptionEmpty = description.getText().toString().equals("");
-        boolean valueEmpty = value.getText().toString().equals("");
-        boolean categoryEmpty = categorySpinner.getSelectedItem().toString().equals("");
+        final Editable itemText = item.getText();
+        final String itemString = itemText.toString();
+        boolean itemEmpty = "".equals(itemString);
+        final Editable descriptionText = description.getText();
+        final String descriptionString = descriptionText.toString();
+        boolean descriptionEmpty = "".equals(descriptionString);
+        final Editable valueText = value.getText();
+        final String valueString = valueText.toString();
+        boolean valueEmpty = "".equals(valueString);
+        //boolean categoryEmpty = "".equals(categorySpinner.getSelectedItem().toString());
 
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 
-        Date date = new Date();
-        String timeStamp = formatter.format(date);
+        final Date date = new Date();
+        final String timeStamp = formatter.format(date);
 
+        final Object selectedItem = categorySpinner.getSelectedItem();
+        final String selectedItemString = selectedItem.toString();
 
-        Donation toAdd = new Donation(item.getText().toString(), description.getText().toString(),
-                timeStamp, value.getText().toString(), currentLocation, categorySpinner.getSelectedItem().toString(), comments.getText().toString());
+        final Editable commentsText = comments.getText();
+        final String commentsString = commentsText.toString();
 
+        Donation toAdd = new Donation(itemString, descriptionString,
+                timeStamp, valueString, currentLocation,
+                selectedItemString, commentsString);
 
         if (itemEmpty || descriptionEmpty || valueEmpty) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -121,7 +131,7 @@ public class NewDonation extends AppCompatActivity {
     /**
      * Puts things back to the default state (meant for when the user returns from MainMenu).
      */
-    public void resetPage() {
+    private void resetPage() {
         item = findViewById(R.id.item);
         description = findViewById(R.id.description);
         value = findViewById(R.id.value);
@@ -132,7 +142,9 @@ public class NewDonation extends AppCompatActivity {
     }
 
     /**
-     * Returns user to the LocationDetail view
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();

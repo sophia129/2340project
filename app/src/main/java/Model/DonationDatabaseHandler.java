@@ -5,23 +5,23 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 import com.example.breadscrumbs.donation_tracker.MainActivity;
-
-import org.w3c.dom.DOMImplementation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * SQLiteDatabase that handles adding and retrieving donations
+ */
 public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "DonationsDB";
 
-    LocationSQLiteDBHandler dbLocations = MainActivity.getLocationsDb();
+    private final LocationSQLiteDBHandler dbLocations = MainActivity.getLocationsDb();
 
     private static final String TABLE_1 = "T1"; //database for location 1
     private static final String TABLE_2 = "T2"; //database for location 2
@@ -39,47 +39,52 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_COMMENTS = "comments";
 
-    String CREATE_TABLE_1 = "CREATE TABLE " + TABLE_1 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
-    String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_2 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
-    String CREATE_TABLE_3 = "CREATE TABLE " + TABLE_3 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
-    String CREATE_TABLE_4 = "CREATE TABLE " + TABLE_4 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
-    String CREATE_TABLE_5 = "CREATE TABLE " + TABLE_5 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
-    String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_6 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
-    String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_7 + " (" + KEY_ITEM + " TEXT PRIMARY KEY, " +
-            KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, " + KEY_VALUE + " TEXT, " +
-            KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, " + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_1 = "CREATE TABLE " + TABLE_1 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_2 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_3 = "CREATE TABLE " + TABLE_3 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_4 = "CREATE TABLE " + TABLE_4 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_5 = "CREATE TABLE " + TABLE_5 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_6 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
+    private final String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_7 + " (" + KEY_ITEM
+            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+            + KEY_COMMENTS + " TEXT);";
 
 
-//    private static final String KEY_LOCATION = "location";
 
-
-    private static final String[] COLUMNS = {KEY_ITEM, KEY_DESCRIPTION, KEY_TIMESTAMP, KEY_VALUE, KEY_LOCATION, KEY_CATEGORY, KEY_COMMENTS};
+    //private static final String[] COLUMNS = {KEY_ITEM, KEY_DESCRIPTION, KEY_TIMESTAMP, KEY_VALUE,
+    //        KEY_LOCATION, KEY_CATEGORY, KEY_COMMENTS};
 
     /**
      * Initialize the Database Handler
      *
-     * @param context
+     * @param context The current interface to set up the database
      */
     public DonationDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
     /**
      * Creates Database Handler
-     * @param sqLiteDatabase
+     * @param sqLiteDatabase The empty database
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -95,9 +100,9 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     /**
      * Update database management system after changing versions
      *
-     * @param sqLiteDatabase
-     * @param oldVersion
-     * @param newVersion
+     * @param sqLiteDatabase the existing SQLiteDatabase to be updated
+     * @param oldVersion The existing version of the database
+     * @param newVersion The new/updated version of the database
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -112,6 +117,10 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /**
+     * Returns a donation based off the specified location and the name
+     *
+     * @param locationKey the identifier for the current location
+     * @param item the name of the item to be retrieved
      * @return the donation that the user has requested
      */
     public Donation getItem(String locationKey, String item) {
@@ -127,7 +136,9 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         }
 
         Donation foundItem = new Donation(cursor.getString(0), cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
+                cursor.getString(2), cursor.getString(3),
+                dbLocations.getLocation(cursor.getString(4)),
+                cursor.getString(5), cursor.getString(6));
 
         cursor.close();
         return foundItem;
@@ -148,16 +159,29 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_7;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Donation potentialItem = null;
+        Donation potentialItem;
 
         if (cursor.moveToFirst()) {
             do {
                 potentialItem = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
-                if (potentialItem.getItem().toLowerCase().contains(Item.toLowerCase()) ) {
-                    Log.d("Item Location", potentialItem.getLocation().getName());
-                    if (!useLocation || potentialItem.getLocation().getKey().equals(location.getKey())) {
+                        cursor.getString(2), cursor.getString(3),
+                        dbLocations.getLocation(cursor.getString(4)),
+                        cursor.getString(5), cursor.getString(6));
+                String shortDescription = potentialItem.getItem();
+                shortDescription = shortDescription.toLowerCase();
+                final String lowercaseItem = Item.toLowerCase();
+                boolean doesContain = shortDescription.contains(lowercaseItem);
+                if (doesContain) {
+                    //Log.d("Item Location", potentialItem.getLocation().getName());
+                    final Location potentialItemLocation = potentialItem.getLocation();
+                    final String key = potentialItemLocation.getKey();
+                    if (!useLocation) {
                         items.add(potentialItem);
+                    } else {
+                        boolean equivalent = key.equals(location.getKey());
+                        if (equivalent) {
+                            items.add(potentialItem);
+                        }
                     }
                 }
             } while (cursor.moveToNext());
@@ -168,6 +192,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
     /**
      * Queries into main database and finds all donations from all locations
+     *
      * @return list of all items regardless of locations
      */
     public List<Donation> getAllDonationItems() {
@@ -182,7 +207,9 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)),cursor.getString(5), cursor.getString(6));
+                        cursor.getString(2), cursor.getString(3),
+                        dbLocations.getLocation(cursor.getString(4)),
+                        cursor.getString(5), cursor.getString(6));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -210,9 +237,10 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         return result;
     }
 
-
     /**
+     * Returns a list of all items for a particular location
      *
+     * @param key the identifier for the location
      * @return list of all donations in the database for a particular location
      */
     public List<Donation> allItems(String key) {
@@ -220,12 +248,14 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + "T" + key;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Donation item = null;
+        Donation item;
 
         if (cursor.moveToFirst()) {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
+                        cursor.getString(2), cursor.getString(3),
+                        dbLocations.getLocation(cursor.getString(4)),
+                        cursor.getString(5), cursor.getString(6));
                 items.add(item);
             } while (cursor.moveToNext());
         }
@@ -252,9 +282,18 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), dbLocations.getLocation(cursor.getString(4)), cursor.getString(5), cursor.getString(6));
-                if (!useLocation || item.getLocation().getKey().equals(location.getKey())) {
+                        cursor.getString(2), cursor.getString(3),
+                        dbLocations.getLocation(cursor.getString(4)),
+                        cursor.getString(5), cursor.getString(6));
+                final Location itemLocation = item.getLocation();
+                final String key = itemLocation.getKey();
+                if (!useLocation) {
                     items.add(item);
+                } else {
+                    boolean equivalent = key.equals(location.getKey());
+                    if (equivalent) {
+                        items.add(item);
+                    }
                 }
             } while (cursor.moveToNext());
         }
@@ -264,46 +303,50 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
     /**
      * Adds a donation to the database
-     * @param item
+     * @param item the item to be added
+     * @param key the identifier for the table number to use
      */
     public void addDonation(Donation item, String key) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        final Location itemLocation = item.getLocation();
+        final String locationKey = itemLocation.getKey();
+
         values.put(KEY_ITEM, item.getItem());
         values.put(KEY_DESCRIPTION, item.getDescription());
         values.put(KEY_TIMESTAMP, item.getTimestamp());
         values.put(KEY_VALUE, item.getValue());
-        values.put(KEY_LOCATION, item.getLocation().getKey());
+        values.put(KEY_LOCATION, locationKey);
         values.put(KEY_CATEGORY, item.getCategory());
         values.put(KEY_COMMENTS, item.getComments());
 
-
         db.insert("T" + key, null, values);
         db.close();
-
     }
 
     /**
      *
      * @param item the donation item being added
      */
-
     public void addDonation(Donation item) {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        final Location itemLocation = item.getLocation();
+        final String locationKey = itemLocation.getKey();
+
         values.put(KEY_ITEM, item.getItem());
         values.put(KEY_DESCRIPTION, item.getDescription());
         values.put(KEY_TIMESTAMP, item.getTimestamp());
         values.put(KEY_VALUE, item.getValue());
-        values.put(KEY_LOCATION, item.getLocation().getKey());
+        values.put(KEY_LOCATION, locationKey);
         values.put(KEY_CATEGORY, item.getCategory());
         values.put(KEY_COMMENTS, item.getComments());
 
         db.insert("T7", null, values);
         db.close();
-
     }
-
 }
 

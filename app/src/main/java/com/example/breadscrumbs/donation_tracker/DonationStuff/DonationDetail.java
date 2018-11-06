@@ -1,8 +1,6 @@
 package com.example.breadscrumbs.donation_tracker.DonationStuff;
 
-import java.util.List;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -14,12 +12,14 @@ import com.example.breadscrumbs.donation_tracker.R;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;
+import Model.Location;
 
+/**
+ * Controller that shows all the information about a certain donation
+ */
 public class DonationDetail extends AppCompatActivity {
 
-    DonationDatabaseHandler db = MainActivity.getDonationsDb();
-    String locationKey;
-    String item;
+    private final DonationDatabaseHandler db = MainActivity.getDonationsDb();
 
     /**
      * Gets the extras from the DonationList activity and calls the load up method for the text view
@@ -32,8 +32,8 @@ public class DonationDetail extends AppCompatActivity {
 
         //Get current location and set the instance variable
         Intent intent = getIntent();
-        locationKey = intent.getStringExtra("Location Key");
-        item = intent.getStringExtra("Item");
+        final String locationKey = intent.getStringExtra("Location Key");
+        final String item = intent.getStringExtra("Item");
         Donation donation = db.getItem(locationKey, item);
 
         loadTV(donation);
@@ -44,37 +44,45 @@ public class DonationDetail extends AppCompatActivity {
      * basically formatted to have a space separating different attributes.
      * Acquires the key for the selected location from the intent as passed from
      * the previous Activity
+     * @param currentItem the donation to load the details of
      */
-    public void loadTV(Donation currentItem)
+    private void loadTV(Donation currentItem)
     {
         String toShow = returnContents(currentItem);
-        TextView detailHolder = (TextView) findViewById(R.id.DetailHolder);
+        TextView detailHolder = findViewById(R.id.DetailHolder);
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);
     }
 
     /**
-     * This compiles all the text to be displayed on the screen into a string that is returned;
+     * This compiles all the text to be displayed on the screen into a string that is returned
+     *
+     * @param item the donation from which information is being extracted
+     * @return the text to be placed in the text view
      */
-    public static String returnContents(Donation item)
+    private static String returnContents(Donation item)
     {
         String forTV = "";
+
+        final Location itemLocation = item.getLocation();
+        final String itemLocationName = itemLocation.getName();
 
         forTV += "Item:\n" + item.getItem() + "\n\n";
         forTV += "Description:\n" + item.getDescription() + "\n\n";
         forTV += "Timestamp:\n" + item.getTimestamp() + "\n\n";
         forTV += "Value:\n" + item.getValue() + "\n\n";
-        forTV += "Location:\n" + item.getLocation().getName() + "\n\n";
+        forTV += "Location:\n" + itemLocationName + "\n\n";
         forTV += "Category:\n" + item.getCategory() + "\n\n";
 
         return forTV;
     }
 
     /**
-     * Handles back press click; takes user back to MainActivity
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
-
 }

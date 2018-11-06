@@ -11,15 +11,15 @@ import android.widget.ListView;
 
 import com.example.breadscrumbs.donation_tracker.R;
 
-import Model.locationModel;
-
+/**
+ * Controller that shows all the locations
+ */
 public class location extends AppCompatActivity {
 
     // Variables/Constants
-    public static String TAG = "MY_APP";
-    public ListView locationsLV;
-    String userEmail;
-
+    public static final String TAG = "MY_APP";
+    private ListView locationsLV;
+    private String userEmail;
 
     /**
      * Gets the extras from the main menu intent and calls the load up method for the list view
@@ -32,9 +32,7 @@ public class location extends AppCompatActivity {
         Intent intent = getIntent();
         userEmail = intent.getStringExtra("email");
 
-        // locationModel.readLocationData(getResources().openRawResource(R.raw.locationdata));
-
-        locationsLV = (ListView) findViewById(R.id.LocationsLV);
+        locationsLV = findViewById(R.id.LocationsLV);
 
         loadLV();
     }
@@ -47,7 +45,7 @@ public class location extends AppCompatActivity {
     {
         final String[] names = Model.locationModel.returnLocationNames();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 names);
@@ -74,7 +72,9 @@ public class location extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to MainActivity
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();

@@ -6,12 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import Model.User;
-
+/**
+ * SQLiteDatabase that handles adding and retrieving users
+ */
 public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 4;
@@ -27,7 +27,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     /**
      * Initialize the Database Handler
      *
-     * @param context
+     * @param context The current interface to set up the database
      */
     public SQLiteDatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -36,7 +36,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     /**
      * Creates Database Handler
-     * @param sqLiteDatabase
+     * @param sqLiteDatabase The empty database
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
@@ -48,9 +48,9 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     /**
      * Update database management system after changing versions
      *
-     * @param sqLiteDatabase
-     * @param oldVersion
-     * @param newVersion
+     * @param sqLiteDatabase the existing SQLiteDatabase to be updated
+     * @param oldVersion The existing version of the database
+     * @param newVersion The new/updated version of the database
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -58,25 +58,23 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         this.onCreate(sqLiteDatabase);
     }
 
-    /**
-     * Delete a User object from the database using key field -> email
-     * @param user
-     */
+    /*
     public void deleteOne(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, KEY_EMAIL + " = ?", new String[]{String.valueOf(user.getUserEmail())});
+        db.delete(TABLE_NAME, KEY_EMAIL + " = ?",
+                new String[]{String.valueOf(user.getUserEmail())});
         db.close();
     }
+    */
 
     /**
      * Retrieves a user from the database
      *
-     * @param email
-     * @return
+     * @param email the email that is used to identify the user
+     * @return the user (as identified by the email)
      */
     public User getUser(String email) {
         SQLiteDatabase db = this.getReadableDatabase();
-
 
         Cursor cursor = db.query(TABLE_NAME,
                 COLUMNS,
@@ -93,13 +91,17 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 //        User user = new User(cursor.getString(0), cursor.getString(1),
 //                cursor.getString(2), User.UserType.valueOf(cursor.getString(3).toUpperCase()));
 
-        User user = new User(cursor.getString(0), cursor.getString(1),
-                cursor.getString(2), User.UserType.valueOf(cursor.getString(3).toUpperCase()));
+        String userType = cursor.getString(3);
+        userType = userType.toUpperCase();
 
-        return user;
+        return new User(cursor.getString(0), cursor.getString(1),
+                cursor.getString(2),
+                User.UserType.valueOf(userType));
     }
 
     /**
+     * Pulls all of the users out of the database and returns it
+     *
      * @return list of all users in the database
      */
     public List<User> allUsers() {
@@ -107,13 +109,16 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        User user = null;
+        User user;
 
         if (cursor.moveToFirst()) {
             do {
+                String userType = cursor.getString(3);
+                userType = userType.toUpperCase();
+
                 user = new User(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2),
-                        User.UserType.valueOf(cursor.getString(3).toUpperCase()));
+                        User.UserType.valueOf(userType));
                users.add(user);
             } while (cursor.moveToNext());
         }
@@ -123,34 +128,33 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     /**
      * Adds a user to the database
-     * @param user
+     * @param user the user to add to the database
      */
     public void addUser(User user) {
+
+        final User.UserType userType = user.getUserType();
+        final String userTypeName = userType.name();
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, user.getUserName());
         values.put(KEY_EMAIL, user.getUserEmail());
         values.put(KEY_PASSWORD, user.getPassword());
-        values.put(KEY_TYPE, user.getUserType().name());
+        values.put(KEY_TYPE, userTypeName);
         //values.put(KEY_TYPE, user.getUserType().getUserTypeString());
 
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
-    /**
-     * Removes all users from the database using Delete query
-     */
+    /*
     public void removeAllUsers() {
         String query = "DELETE FROM " + TABLE_NAME;
         getWritableDatabase().execSQL(query);
     }
+    */
 
-    /**
-     * Updates a user with instance variables from the user passed in
-     * @param user
-     * @return
-     */
+    /*
     public int updateUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -167,4 +171,6 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         return i;
 
     }
+    */
+
 }

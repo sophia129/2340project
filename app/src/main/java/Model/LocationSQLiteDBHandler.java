@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * SQLiteDatabase that handles adding and retrieving locations
+ */
 public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 4;
     private static final String DATABASE_NAME = "LocationsDB";
@@ -17,7 +20,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
     private static final String KEY_NAME = "name";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
-    private static final String KEY_STREETADDRESS = "address";
+    private static final String KEY_STREET_ADDRESS = "address";
     private static final String KEY_CITY = "city";
     private static final String KEY_STATE = "state";
     private static final String KEY_ZIP = "zip";
@@ -26,12 +29,12 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
     private static final String KEY_WEBSITE = "website";
 
     private static final String[] COLUMNS = {KEY_KEY, KEY_NAME, KEY_LATITUDE, KEY_LONGITUDE,
-            KEY_STREETADDRESS, KEY_CITY, KEY_STATE, KEY_ZIP, KEY_TYPE, KEY_PHONE, KEY_WEBSITE};
+            KEY_STREET_ADDRESS, KEY_CITY, KEY_STATE, KEY_ZIP, KEY_TYPE, KEY_PHONE, KEY_WEBSITE};
 
     /**
      * Initialize the Database Handler
      *
-     * @param context
+     * @param context The current interface to set up the database
      */
     public LocationSQLiteDBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,22 +43,24 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
 
     /**
      * Creates Database Handler
-     * @param sqLiteDatabase
+     * @param sqLiteDatabase The empty database
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + KEY_KEY + " TEXT PRIMARY KEY, " +
-                KEY_NAME + " TEXT, " + KEY_LATITUDE + " TEXT, " + KEY_LONGITUDE + " TEXT, " + KEY_STREETADDRESS + " TEXT, " + KEY_CITY
-                + " TEXT, " + KEY_STATE  + " TEXT, " + KEY_ZIP  + " TEXT, " + KEY_TYPE  + " TEXT, " + KEY_PHONE  + " TEXT, " + KEY_WEBSITE + " TEXT);";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + KEY_KEY + " TEXT PRIMARY KEY, "
+                + KEY_NAME + " TEXT, " + KEY_LATITUDE + " TEXT, " + KEY_LONGITUDE + " TEXT, "
+                + KEY_STREET_ADDRESS + " TEXT, " + KEY_CITY + " TEXT, " + KEY_STATE  + " TEXT, "
+                + KEY_ZIP  + " TEXT, " + KEY_TYPE  + " TEXT, " + KEY_PHONE  + " TEXT, "
+                + KEY_WEBSITE + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE);
     }
 
     /**
      * Update database management system after changing versions
      *
-     * @param sqLiteDatabase
-     * @param oldVersion
-     * @param newVersion
+     * @param sqLiteDatabase the existing SQLiteDatabase to be updated
+     * @param oldVersion The existing version of the database
+     * @param newVersion The new/updated version of the database
      */
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
@@ -66,8 +71,8 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
     /**
      * Retrieves a location from the database from its location
      *
-     * @param key
-     * @return
+     * @param key The identifier for the location
+     * @return the location retrieved from the identifier
      */
     public Location getLocation(String key) {
         SQLiteDatabase db = this.getReadableDatabase();
@@ -82,9 +87,9 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         }
 
         Location location = new Location(cursor.getString(0), cursor.getString(1),
-                cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
-                cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
-                cursor.getString(10));
+                cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                cursor.getString(5), cursor.getString(6), cursor.getString(7),
+                cursor.getString(8), cursor.getString(9), cursor.getString(10));
 
         cursor.close();
         return location;
@@ -92,7 +97,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
 
     /**
      * Adds a location to the database
-     * @param location
+     * @param location the location to add
      */
     public void addLocation(Location location) {
 
@@ -102,7 +107,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         values.put(KEY_NAME, location.getName());
         values.put(KEY_LATITUDE, location.getLatitude());
         values.put(KEY_LONGITUDE, location.getLongitude());
-        values.put(KEY_STREETADDRESS, location.getStreetAddress());
+        values.put(KEY_STREET_ADDRESS, location.getStreetAddress());
         values.put(KEY_CITY, location.getCity());
         values.put(KEY_STATE, location.getState());
         values.put(KEY_ZIP, location.getZip());
@@ -129,9 +134,9 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 location = new Location(cursor.getString(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5),
-                        cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9),
-                        cursor.getString(10));
+                        cursor.getString(2), cursor.getString(3), cursor.getString(4),
+                        cursor.getString(5), cursor.getString(6), cursor.getString(7),
+                        cursor.getString(8), cursor.getString(9), cursor.getString(10));
                 locations.add(location);
             } while (cursor.moveToNext());
         }

@@ -8,8 +8,11 @@ import android.view.View;
 import com.example.breadscrumbs.donation_tracker.LocationStuff.location;
 import com.example.breadscrumbs.donation_tracker.SearchStuff.Search_Options;
 
+/**
+ * Controller that handles actions taken on the main menu of the application
+ */
 public class MainMenu extends AppCompatActivity {
-    String userEmail;
+    private String userEmail;
 
     /**
      * Gets the extras from the LogIn activity
@@ -25,7 +28,9 @@ public class MainMenu extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to LogIn
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
@@ -33,6 +38,8 @@ public class MainMenu extends AppCompatActivity {
 
     /**
      * Handles location button
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedLocationButton(View view) {
         Intent newIntent = new Intent(this, location.class);
@@ -42,7 +49,8 @@ public class MainMenu extends AppCompatActivity {
 
     /**
      * Handles search button
-     * @param view
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedSearchButton(View view) {
         Intent newIntent = new Intent(this, Search_Options.class);
@@ -51,10 +59,13 @@ public class MainMenu extends AppCompatActivity {
         startActivity(newIntent);
     }
 
+    /**
+     * Launches the Maps activity
+     *
+     * @param view Automatic parameter for user interaction
+     */
     public void ClickedMapsButton(View view) {
         Intent newIntent = new Intent(this, MapsActivity.class);
         startActivity(newIntent);
     }
-
-
 }

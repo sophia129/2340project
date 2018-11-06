@@ -2,9 +2,9 @@ package com.example.breadscrumbs.donation_tracker;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,12 +13,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Model.NewAccountModel;
 
 import Model.SQLiteDatabaseHandler;
 import Model.User;
 
+/**
+ * NewAccount class that handles the creation of a new account
+ */
 public class NewAccount extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText name;
@@ -28,7 +32,7 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
     private Spinner userTypeSpinner;
     private Button createAccountButton;
 
-    SQLiteDatabaseHandler db = MainActivity.getDb();
+    private final SQLiteDatabaseHandler db = MainActivity.getDb();
 
     /**
      *
@@ -54,12 +58,13 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
             typeList.add(u.getUserTypeString());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter(this,
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, typeList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         userTypeSpinner.setAdapter(adapter);
 
         createAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View v) {
                 ClickCreateAccount(v);
             }
@@ -74,7 +79,9 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
     }
 
     /**
-     * Handles back press click; takes user back to MainActivity
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
@@ -83,26 +90,44 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
     /**
      * Handles log in click; checks validity of credentials before starting MainMenu.
      * If the user is not valid, then the user will not be taken to MainMenu.
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickCreateAccount(View view) {
-        String noSpaceString = Model.User.removeSpacesFromUserTypeString(userTypeSpinner.getSelectedItem().toString().toUpperCase());
+        final Object selectedUserType = userTypeSpinner.getSelectedItem();
+        String selectedUserTypeString = selectedUserType.toString();
+        selectedUserTypeString = selectedUserTypeString.toUpperCase();
+        String noSpaceString = Model.User.removeSpacesFromUserTypeString(selectedUserTypeString);
         User.UserType userType = User.UserType.valueOf(noSpaceString);
-        User userToAdd = new User(name.getText().toString(),
-                email.getText().toString(),
-                password.getText().toString(), userType);
+        final Editable nameText = name.getText();
+        final String nameString = nameText.toString();
+        final Editable emailText = email.getText();
+        final String emailString = emailText.toString();
+        final Editable passwordText = password.getText();
+        final String passwordString = passwordText.toString();
+        final Editable confirmPasswordText = confirmPassword.getText();
+        final String confirmPasswordString = confirmPasswordText.toString();
 
-        boolean nameEmpty = name.getText().toString().equals("");
-        boolean emailEmpty = email.getText().toString().equals("");
-        boolean passwordEmpty = password.getText().toString().equals("");
-        boolean confirmPasswordEmpty = confirmPassword.getText().toString().equals("");
+        User userToAdd = new User(nameString,
+                emailString,
+                passwordString, userType);
 
-        boolean passwordsMatch = NewAccountModel.checkPasswordMatch(password.getText().toString(),
-                confirmPassword.getText().toString());
+        boolean nameEmpty = "".equals(nameString);
+        boolean emailEmpty = "".equals(emailString);
+        boolean passwordEmpty = "".equals(passwordString);
 
-        boolean passwordLengthOkay = password.getText().toString().length() >= 8;
+        boolean confirmPasswordEmpty = "".equals(confirmPasswordString);
 
-//        // PERSISTANCE!!
-//
+        boolean passwordsMatch = NewAccountModel.checkPasswordMatch(passwordString,
+                confirmPasswordString);
+
+        final int passwordLength = passwordString.length();
+        boolean passwordLengthOkay = passwordLength >= 8;
+        final List<User> allUsers = db.allUsers();
+        final boolean containsUser = allUsers.contains(userToAdd);
+
+        // PERSISTENCE!!
+
         if (nameEmpty || emailEmpty || passwordEmpty || confirmPasswordEmpty) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Missing Entry!");
@@ -121,7 +146,7 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
             dialog.setMessage("Password must be at least 8 characters.");
             dialog.setPositiveButton("OK", null);
             dialog.show();
-        } else if (db.allUsers().contains(userToAdd)) {
+        } else if (containsUser) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Email Error!");
             dialog.setMessage("That email already exists in our system.");
@@ -132,13 +157,12 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
             Intent newIntent = new Intent(this, MainActivity.class);
             startActivity(newIntent);
         }
-
     }
 
     /**
      * Puts things back to the default state (meant for when the user returns from MainMenu).
      */
-    public void resetPage() {
+    private void resetPage() {
         name = findViewById(R.id.userName);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);

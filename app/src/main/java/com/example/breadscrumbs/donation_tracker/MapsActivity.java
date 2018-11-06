@@ -2,10 +2,9 @@ package com.example.breadscrumbs.donation_tracker;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.view.View;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -16,6 +15,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import Model.Location;
 
+/**
+ * Controller that displays a Google Map with locations and their details
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -28,8 +30,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        FragmentManager currentFM = getSupportFragmentManager();
+        SupportMapFragment mapFragment = (SupportMapFragment) currentFM.findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -42,8 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * installed Google Play services and returned to the app.
      *
      * For our purposes, setting a marker on the map for each location. The title is set to the name
-     * of the donation center, and the snippet underneath is the center's phone number. Zoom controls
-     * are also integrated here.
+     * of the donation center, and the snippet underneath is the center's phone number.
+     * Zoom controls are also integrated here.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -51,11 +53,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Model.Location[] locationList = Model.locationModel.returnLocations();
 
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        UiSettings currentSettings = mMap.getUiSettings();
+        currentSettings.setZoomControlsEnabled(true);
 
         for (Location location : locationList) {
-            LatLng temp = new LatLng(Double.parseDouble(location.getLatitude()), Double.parseDouble(location.getLongitude()));
-            mMap.addMarker(new MarkerOptions().position(temp).title(location.getName()).snippet(location.getPhone()));
+            LatLng temp = new LatLng(Double.parseDouble(location.getLatitude()),
+                    Double.parseDouble(location.getLongitude()));
+            MarkerOptions marker = new MarkerOptions();
+            marker.position(temp);
+            marker.title(location.getName());
+            marker.snippet(location.getPhone());
+
+            mMap.addMarker(marker);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(temp));
         }
 
@@ -64,7 +73,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Handles back press click; takes user back to MainMenu
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();

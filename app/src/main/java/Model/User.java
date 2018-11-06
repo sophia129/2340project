@@ -3,28 +3,44 @@ package Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Encapsulates all the attributes about a particular user
+ */
 public class User implements Parcelable {
 
     public enum UserType {
-        USER("USER"), LOCATIONEMPLOYEE("LOCATION EMPLOYEE"), ADMIN("ADMIN"), MANAGER("MANAGER");
+        USER("USER"), LOCATION_EMPLOYEE("LOCATION EMPLOYEE"), ADMIN("ADMIN"), MANAGER("MANAGER");
 
-        private String userTypeString;
+        private final String userTypeString;
 
         UserType(String userTypeString) {
             this.userTypeString = userTypeString;
         }
 
+        /**
+         * Getter method that returns the user's type
+         *
+         * @return the user's type
+         */
         public String getUserTypeString() {
             return this.userTypeString;
         }
 
     }
 
-    private String userName;
-    private String userEmail;
-    private String password;
-    private UserType userType;
+    private final String userName;
+    private final String userEmail;
+    private final String password;
+    private final UserType userType;
 
+    /**
+     * The constructor that contains all the required attributes for adding a user
+     *
+     * @param userName the user's name or username
+     * @param userEmail the user's unique email address (used for identification purposes)
+     * @param password the user's password of at least 8 characters
+     * @param userType the selected type of user for different levels of permissions
+     */
     public User(String userName, String userEmail, String password, UserType userType) {
         this.userName = userName;
         this.userEmail = userEmail;
@@ -32,38 +48,43 @@ public class User implements Parcelable {
         this.userType = userType;
     }
 
+    /**
+     * Getter method that returns the user's username
+     *
+     * @return the user's username
+     */
     public String getUserName() {
         return this.userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
+    /**
+     * Getter method that returns the user's email
+     *
+     * @return the user's email
+     */
     public String getUserEmail() {
         return this.userEmail;
     }
 
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
+    /**
+     * Getter method that returns the user's password
+     *
+     * @return the user's password
+     */
     public String getPassword() {
         return this.password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    /**
+     * Getter method that returns the user's type
+     *
+     * @return the user's type
+     */
     public UserType getUserType() {
         return this.userType;
     }
 
-    public void setUserType(UserType userType) {
-        this.userType = userType;
-    }
-
+    /*
     public static int findUserTypePosition(UserType userType) {
         int i = 0;
         while (i < UserType.values().length) {
@@ -74,6 +95,7 @@ public class User implements Parcelable {
         }
         return 0;
     }
+    */
 
     private User(Parcel in) {
         this.userName = in.readString();
@@ -95,16 +117,23 @@ public class User implements Parcelable {
         destination.writeSerializable(userType);
     }
 
+    /**
+     * A string representation of the user with all its important qualities
+     *
+     * @return a string representation of the user
+     */
     public String toString() {
         return userName + " : " + userEmail + ", " + userType.name();
     }
 
     public static final Parcelable.Creator<User> CREATOR
             = new Parcelable.Creator<User>() {
+        @Override
         public User createFromParcel(Parcel in) {
             return new User(in);
         }
 
+        @Override
         public User[] newArray(int size) {
             return new User[size];
         }
@@ -126,12 +155,12 @@ public class User implements Parcelable {
     }
 
     /**
-     * Returns the user type string with its spaces removed; used for converting to enum's state
+     * Returns the user type string with spaces as underscores; used for converting to enum's state
+     *
+     * @param userTypeString The original string that contains spaces
+     * @return the modified string that contains no spaces
      */
     public static String removeSpacesFromUserTypeString(String userTypeString) {
-        return userTypeString.replaceAll(" ", "");
+        return userTypeString.replaceAll(" ", "_");
     }
-
-
-
 }

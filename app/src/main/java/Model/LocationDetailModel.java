@@ -1,9 +1,15 @@
 package Model;
 
+/**
+ * Handles logic for LocationDetail controller
+ */
 public class LocationDetailModel {
 
     /**
      * Returns what should be printed in the Location Detail Text View
+     *
+     * @param currentLocation the location to be used when accessing attributes
+     * @return the contents of each of currentLocation's attributes
      */
     public static String returnContents(Location currentLocation)
     {

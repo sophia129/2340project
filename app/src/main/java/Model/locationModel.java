@@ -10,16 +10,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
+/**
+ * Handles logic for the location controller
+ */
 public class locationModel {
 
-    static LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
+    private static final LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
 
     /**
      * Method that returns an array with all the names of the locations
+     * @return the list of locations as strings
      */
     public static String[] returnLocationNames() {
-        String[] toReturn = new String[db.allLocations().size()];
+        List<Location> allLocations = db.allLocations();
+        int locationsSize = allLocations.size();
+        String[] toReturn = new String[locationsSize];
         int index = 0;
         for (Location location : db.allLocations()) {
             toReturn[index] = location.getName();
@@ -30,9 +37,12 @@ public class locationModel {
 
     /**
      * Method that returns an array with all the names of the locations
+     * @return the list of locations as Locations
      */
     public static Location[] returnLocations() {
-        Location[] toReturn = new Location[db.allLocations().size()];
+        List<Location> allLocations = db.allLocations();
+        int locationsSize = allLocations.size();
+        Location[] toReturn = new Location[locationsSize];
         int index = 0;
         for (Location location : db.allLocations()) {
             toReturn[index] = location;
@@ -45,12 +55,13 @@ public class locationModel {
      * Reads in the data from the CSV file by parsing it by its commas;
      * takes these separated components to create a location that is added to the
      * local database of locations
+     *
+     * @param locationInput the file data to be interpreted and split for the locations
      */
     public static void readLocationData(InputStream locationInput) {
 
         String line = null;
         try {
-            //InputStream locationInput = getResources().openRawResource(R.raw.locationdata);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(locationInput, StandardCharsets.UTF_8)
             );
@@ -74,8 +85,10 @@ public class locationModel {
                         tokens[Location.SaveEquivalencies.phone.value],
                         tokens[Location.SaveEquivalencies.website.value]);
 
+                List<Location> allLocations = db.allLocations();
+                boolean containsNewLocation = allLocations.contains(newLocation);
 
-                if (!db.allLocations().contains(newLocation)) {
+                if (!containsNewLocation) {
                     db.addLocation(newLocation);
                 }
             }

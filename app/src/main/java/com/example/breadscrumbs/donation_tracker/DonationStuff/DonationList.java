@@ -13,16 +13,23 @@ import com.example.breadscrumbs.donation_tracker.DonationStuff.DonationDetail;
 import com.example.breadscrumbs.donation_tracker.MainActivity;
 import com.example.breadscrumbs.donation_tracker.R;
 
+import java.util.List;
+
 import Model.Donation;
 import Model.DonationDatabaseHandler;
 
+/**
+ * Controller that displays the donations for a particular location
+ */
 public class DonationList extends AppCompatActivity {
-    DonationDatabaseHandler db = MainActivity.getDonationsDb();
-    String locationKey;
-    ListView DonationsList;
+    private final DonationDatabaseHandler db = MainActivity.getDonationsDb();
+    private String locationKey;
+    private ListView DonationsList;
 
     /**
-     * Gets the extras from the LocationDetail activity and calls the load up method for the list view
+     * Gets the extras from the LocationDetail activity and calls the
+     * load up method for the list view
+     *
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +40,7 @@ public class DonationList extends AppCompatActivity {
         locationKey = intent.getStringExtra("LocationKey");
 
         //Get current location and set the instance variable
-        DonationsList = (ListView) findViewById(R.id.DonationsList);
+        DonationsList = findViewById(R.id.DonationsList);
 
         loadLV();
     }
@@ -45,7 +52,7 @@ public class DonationList extends AppCompatActivity {
     {
         final String[] names = itemsAsList();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 names);
@@ -74,7 +81,9 @@ public class DonationList extends AppCompatActivity {
      * This gets all the donations stored in the database and returns them as a string array
      */
     private String[] itemsAsList() {
-        String[] toReturn = new String[db.allItems(locationKey).size()];
+        final List<Donation> allItems = db.allItems(locationKey);
+        final int allItemsSize = allItems.size();
+        String[] toReturn = new String[allItemsSize];
         int index = 0;
         for (Donation donation : db.allItems(locationKey)) {
             toReturn[index] = donation.getItem();
@@ -84,7 +93,9 @@ public class DonationList extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to MainActivity
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view the automatic parameter for the current view
      */
     public void ClickedBackButton(View view) {
         onBackPressed();

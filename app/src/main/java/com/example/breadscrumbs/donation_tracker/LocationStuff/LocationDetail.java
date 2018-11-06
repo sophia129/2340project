@@ -5,8 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Button;
@@ -23,15 +24,18 @@ import Model.LocationSQLiteDBHandler;
 import Model.SQLiteDatabaseHandler;
 import Model.User;
 
+/**
+ * Shows the information for the chosen location
+ */
 public class LocationDetail extends AppCompatActivity {
 
-    LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
-    SQLiteDatabaseHandler usersDb = MainActivity.getDb();
-    TextView detailHolder;
+    private final LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
+    private final SQLiteDatabaseHandler usersDb = MainActivity.getDb();
+    private TextView detailHolder;
 
-    Location currentLocation = null;
-    String userEmail;
-    String key;
+    private Location currentLocation;
+    private String userEmail;
+    private String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,29 +53,35 @@ public class LocationDetail extends AppCompatActivity {
         Button view = findViewById(R.id.viewDonations);
         Button add = findViewById(R.id.addDonation);
 
-        detailHolder = (TextView) findViewById(R.id.DetailHolder);
+        detailHolder = findViewById(R.id.DetailHolder);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final WindowManager currentWM = getWindowManager();
+        final Display currentDisplay = currentWM.getDefaultDisplay();
+        currentDisplay.getMetrics(displayMetrics);
         final int height = displayMetrics.heightPixels; // gets height of display
 
-        RelativeLayout topLayout = (RelativeLayout) findViewById(R.id.topLayout);
+        RelativeLayout topLayout = findViewById(R.id.topLayout);
 
         final int sizingConstantForSpacing = 20;
-        int forTV = height - (topLayout.getLayoutParams().height * 2 + add.getLayoutParams().height - sizingConstantForSpacing);
+        int forTV = (height - ((topLayout.getLayoutParams().height * 2)
+                + (add.getLayoutParams().height - sizingConstantForSpacing)));
 
-        if (usersDb.getUser(userEmail).getUserType() == User.UserType.USER) {
+        User currentUser = usersDb.getUser(userEmail);
+        User.UserType userType = currentUser.getUserType();
+
+        if (userType == User.UserType.USER) {
             view.setVisibility(View.GONE);
             add.setVisibility(View.GONE);
         } else {
             // 1.2 multipliers to approximately account for spacing between them
             final double sizingMultiplierForSpacing = 1.1;
-            forTV -= (view.getLayoutParams().height + add.getLayoutParams().height) * sizingMultiplierForSpacing;
+            forTV -= (view.getLayoutParams().height
+                    + add.getLayoutParams().height) * sizingMultiplierForSpacing;
         }
 
 
         detailHolder.getLayoutParams().height = forTV;
-
 
         loadTV();
     }
@@ -82,16 +92,18 @@ public class LocationDetail extends AppCompatActivity {
      * Acquires the key for the selected location from the intent as passed from
      * the previous Activity
      */
-    public void loadTV()
+    private void loadTV()
     {
         String toShow = LocationDetailModel.returnContents(currentLocation);
-        TextView detailHolder = (TextView) findViewById(R.id.DetailHolder);
+        TextView detailHolder = findViewById(R.id.DetailHolder);
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);
     }
 
     /**
      * Responsible for starting the NewDonation activity; loads up intents
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void AddDonation(View view) {
 
@@ -104,16 +116,19 @@ public class LocationDetail extends AppCompatActivity {
 
     /**
      * Responsible for starting the DonationList activity; loads up intents
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ViewDonations(View view) {
         Intent newIntent = new Intent(this, DonationList.class);
         newIntent.putExtra("LocationKey", currentLocation.getKey());
         startActivity(newIntent);
-
     }
 
     /**
-     * Responsible for starting the Search_Options activity; loads up intents
+     * Starts the activity for the search functionality
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedSearchButton(View view) {
         Intent newIntent = new Intent(this, Search_Options.class);
@@ -123,10 +138,11 @@ public class LocationDetail extends AppCompatActivity {
     }
 
     /**
-     * Handles back press click; takes user back to MainActivity
+     * Handles back press click; takes user back to previous activity
+     *
+     * @param view Automatic parameter for user interaction
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
     }
-
 }
