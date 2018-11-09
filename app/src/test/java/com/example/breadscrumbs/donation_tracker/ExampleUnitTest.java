@@ -43,6 +43,21 @@ public class ExampleUnitTest {
         when(db.allUsers()).thenReturn(testList);
 
         assertEquals(db.allUsers(), testList);
+
+        User james = new User("James", "john@email.com", "987654321",User.UserType.USER);
+
+        //Tests adding a duplicate email to the database. All Users should remain the same
+        db.addUser(james);
+        when(db.allUsers()).thenReturn(testList);
+
+        List<User> appendedList = new ArrayList<User>();
+        for (User u : testList) {
+            appendedList.add(u);
+        }
+        appendedList.add(james);
+
+        assertEquals(db.allUsers(), testList);
+        assertNotEquals(db.allUsers(), appendedList);
     }
 
     @Test
