@@ -39,36 +39,6 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_COMMENTS = "comments";
 
-    private final String CREATE_TABLE_1 = "CREATE TABLE " + TABLE_1 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-    private final String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_2 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-    private final String CREATE_TABLE_3 = "CREATE TABLE " + TABLE_3 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-    private final String CREATE_TABLE_4 = "CREATE TABLE " + TABLE_4 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-    private final String CREATE_TABLE_5 = "CREATE TABLE " + TABLE_5 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-    private final String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_6 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-    private final String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_7 + " (" + KEY_ITEM
-            + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
-            + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
-            + KEY_COMMENTS + " TEXT);";
-
-
 
     //private static final String[] COLUMNS = {KEY_ITEM, KEY_DESCRIPTION, KEY_TIMESTAMP, KEY_VALUE,
     //        KEY_LOCATION, KEY_CATEGORY, KEY_COMMENTS};
@@ -88,12 +58,40 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String CREATE_TABLE_1 = "CREATE TABLE " + TABLE_1 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_1);
+        String CREATE_TABLE_2 = "CREATE TABLE " + TABLE_2 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_2);
+        String CREATE_TABLE_3 = "CREATE TABLE " + TABLE_3 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_3);
+        String CREATE_TABLE_4 = "CREATE TABLE " + TABLE_4 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_4);
+        String CREATE_TABLE_5 = "CREATE TABLE " + TABLE_5 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_5);
+        String CREATE_TABLE_6 = "CREATE TABLE " + TABLE_6 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_6);
+        String CREATE_TABLE_7 = "CREATE TABLE " + TABLE_7 + " (" + KEY_ITEM
+                + " TEXT PRIMARY KEY, " + KEY_DESCRIPTION + " TEXT, " + KEY_TIMESTAMP + " TEXT, "
+                + KEY_VALUE + " TEXT, " + KEY_LOCATION + " TEXT, " + KEY_CATEGORY + " TEXT, "
+                + KEY_COMMENTS + " TEXT);";
         sqLiteDatabase.execSQL(CREATE_TABLE_7);
     }
 
@@ -135,6 +133,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
 
+        assert cursor != null;
         Donation foundItem = new Donation(cursor.getString(0), cursor.getString(1),
                 cursor.getString(2), cursor.getString(3),
                 dbLocations.getLocation(cursor.getString(4)),
@@ -173,8 +172,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
                 boolean doesContain = shortDescription.contains(lowercaseItem);
                 if (doesContain) {
                     //Log.d("Item Location", potentialItem.getLocation().getName());
-                    final Location potentialItemLocation = potentialItem.getLocation();
-                    final String key = potentialItemLocation.getKey();
+                    //final Location potentialItemLocation = potentialItem.getLocation();
+                    final String key = potentialItem.getLocationKey();
                     if (!useLocation) {
                         items.add(potentialItem);
                     } else {
@@ -186,6 +185,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
                 }
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
 
         return items;
     }
@@ -202,7 +203,7 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Donation item = null;
+        Donation item;
 
         if (cursor.moveToFirst()) {
             do {
@@ -213,6 +214,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
                 items.add(item);
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
 
         return items;
     }
@@ -233,6 +236,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
                 result.add(cursor.getString((cursor.getColumnIndex("item"))));
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
 
         return result;
     }
@@ -260,6 +265,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+
         return items;
     }
 
@@ -278,15 +285,16 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_7 + " WHERE category= ?";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, new String[] {Category});
-        Donation item = null;
+        Donation item;
         if (cursor.moveToFirst()) {
             do {
                 item = new Donation(cursor.getString(0), cursor.getString(1),
                         cursor.getString(2), cursor.getString(3),
                         dbLocations.getLocation(cursor.getString(4)),
                         cursor.getString(5), cursor.getString(6));
-                final Location itemLocation = item.getLocation();
-                final String key = itemLocation.getKey();
+                //final Location itemLocation = item.getLocation();
+                //final String key = itemLocation.getKey();
+                final String key = item.getLocationKey();
                 if (!useLocation) {
                     items.add(item);
                 } else {
@@ -297,6 +305,8 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
                 }
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
 
         return items;
     }
@@ -310,8 +320,10 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        final Location itemLocation = item.getLocation();
-        final String locationKey = itemLocation.getKey();
+        //final Location itemLocation = item.getLocation();
+        //final String locationKey = itemLocation.getKey();
+
+        final String locationKey = item.getLocationKey();
 
         values.put(KEY_ITEM, item.getItem());
         values.put(KEY_DESCRIPTION, item.getDescription());
@@ -334,8 +346,10 @@ public class DonationDatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        final Location itemLocation = item.getLocation();
-        final String locationKey = itemLocation.getKey();
+        //final Location itemLocation = item.getLocation();
+        //final String locationKey = itemLocation.getKey();
+
+        final String locationKey = item.getLocationKey();
 
         values.put(KEY_ITEM, item.getItem());
         values.put(KEY_DESCRIPTION, item.getDescription());

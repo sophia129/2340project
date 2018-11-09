@@ -12,7 +12,7 @@ import com.example.breadscrumbs.donation_tracker.R;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;
-import Model.Location;
+//import Model.Location;
 
 /**
  * Controller that shows all the information about a certain donation
@@ -62,19 +62,7 @@ public class DonationDetail extends AppCompatActivity {
      */
     private static String returnContents(Donation item)
     {
-        String forTV = "";
-
-        final Location itemLocation = item.getLocation();
-        final String itemLocationName = itemLocation.getName();
-
-        forTV += "Item:\n" + item.getItem() + "\n\n";
-        forTV += "Description:\n" + item.getDescription() + "\n\n";
-        forTV += "Timestamp:\n" + item.getTimestamp() + "\n\n";
-        forTV += "Value:\n" + item.getValue() + "\n\n";
-        forTV += "Location:\n" + itemLocationName + "\n\n";
-        forTV += "Category:\n" + item.getCategory() + "\n\n";
-
-        return forTV;
+        return item.toStringDonationDetail();
     }
 
     /**

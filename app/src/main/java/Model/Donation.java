@@ -96,10 +96,43 @@ public class Donation {
     public String getComments() { return this.comments; }
 
     /**
+     *
+     * @return the Donation's Location's Key
+     */
+    public String getLocationKey() {
+        return this.location.getKey();
+    }
+
+    /**
+     *
+     * @return the Donation's Location's Name
+     */
+    public String getLocationName() {
+        return this.location.getName();
+    }
+
+    /**
      * Gives a string description that includes all the details of the donation
      */
     public String toString() { return this.item + "\n" + this.description+ "\n" + this.timestamp
             + "\n" + this.value + "\n" + this.location.getName() + "\n" + this.category
-            + "\n" + this.comments; }
+            + "\n" + this.comments;
+    }
+
+    /**
+     *
+     * @return A different String representation of the Donation item
+     */
+    public String toStringDonationDetail() {
+        String toReturn = "";
+        toReturn += "Item:\n" + this.item + "\n\n";
+        toReturn += "Description:\n" + this.description + "\n\n";
+        toReturn += "Timestamp:\n" + this.timestamp + "\n\n";
+        toReturn += "Value:\n" + this.value + "\n\n";
+        toReturn += "Location:\n" + getLocationName() + "\n\n";
+        toReturn += "Category:\n" + this.category + "\n\n";
+
+        return toReturn;
+    }
 
 }

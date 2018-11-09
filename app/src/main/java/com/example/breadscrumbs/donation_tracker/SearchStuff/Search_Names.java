@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;
-import Model.Location;
+//import Model.Location;
 import Model.LocationSQLiteDBHandler;
 
 /**
@@ -79,7 +80,7 @@ public class Search_Names extends AppCompatActivity {
     private void loadInventory(String name) {
         final String[] items = itemsAsList(name);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ListAdapter arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 items);
@@ -103,8 +104,8 @@ public class Search_Names extends AppCompatActivity {
                                     int position, long id) {
 
                 final Donation current = donationArray.get(position);
-                final Location currentLocation = current.getLocation();
-                final String currentLocationKey = currentLocation.getKey();
+                //final Location currentLocation = current.getLocation();
+                final String currentLocationKey = current.getLocationKey();
                 Intent newIntent = new Intent(outerContext, DonationDetail.class);
                 newIntent.putExtra("Location Key",
                         currentLocationKey);

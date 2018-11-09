@@ -7,9 +7,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.example.breadscrumbs.donation_tracker.MainActivity;
 import com.example.breadscrumbs.donation_tracker.R;
+
+import java.util.List;
+
+import Model.Location;
+import Model.LocationSQLiteDBHandler;
 
 /**
  * Controller that shows all the locations
@@ -20,6 +27,8 @@ public class location extends AppCompatActivity {
     public static final String TAG = "MY_APP";
     private ListView locationsLV;
     private String userEmail;
+
+    private static final LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
 
     /**
      * Gets the extras from the main menu intent and calls the load up method for the list view
@@ -43,9 +52,9 @@ public class location extends AppCompatActivity {
      */
     private void loadLV()
     {
-        final String[] names = Model.locationModel.returnLocationNames();
+        final String[] names = returnLocationNames();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ListAdapter arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 names);
@@ -78,5 +87,21 @@ public class location extends AppCompatActivity {
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
+    }
+
+    /**
+     * Method that returns an array with all the names of the locations
+     * @return the list of locations as strings
+     */
+    private static String[] returnLocationNames() {
+        List<Location> allLocations = db.allLocations();
+        int locationsSize = allLocations.size();
+        String[] toReturn = new String[locationsSize];
+        int index = 0;
+        for (Location location : db.allLocations()) {
+            toReturn[index] = location.getName();
+            ++index;
+        }
+        return toReturn;
     }
 }

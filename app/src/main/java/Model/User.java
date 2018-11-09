@@ -154,6 +154,11 @@ public class User implements Parcelable {
         return (that.userEmail.equalsIgnoreCase(this.userEmail));
     }
 
+    @Override
+    public int hashCode() {
+        return 1;
+    }
+
     /**
      * Returns the user type string with spaces as underscores; used for converting to enum's state
      *

@@ -15,7 +15,6 @@ import android.widget.Spinner;
 import java.util.ArrayList;
 import java.util.List;
 
-import Model.NewAccountModel;
 
 import Model.SQLiteDatabaseHandler;
 import Model.User;
@@ -30,7 +29,6 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
     private EditText password;
     private EditText confirmPassword;
     private Spinner userTypeSpinner;
-    private Button createAccountButton;
 
     private final SQLiteDatabaseHandler db = MainActivity.getDb();
 
@@ -51,7 +49,7 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
         password = findViewById(R.id.password);
         confirmPassword = findViewById(R.id.confirmPassword);
         userTypeSpinner = findViewById(R.id.userSpinner);
-        createAccountButton = findViewById(R.id.createAccount);
+        Button createAccountButton = findViewById(R.id.createAccount);
 
         ArrayList<String> typeList = new ArrayList<>();
         for (User.UserType u : User.UserType.values()) {
@@ -112,46 +110,52 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
                 emailString,
                 passwordString, userType);
 
-        boolean nameEmpty = "".equals(nameString);
-        boolean emailEmpty = "".equals(emailString);
-        boolean passwordEmpty = "".equals(passwordString);
-
-        boolean confirmPasswordEmpty = "".equals(confirmPasswordString);
-
-        boolean passwordsMatch = NewAccountModel.checkPasswordMatch(passwordString,
-                confirmPasswordString);
-
         final int passwordLength = passwordString.length();
         boolean passwordLengthOkay = passwordLength >= 8;
         final List<User> allUsers = db.allUsers();
         final boolean containsUser = allUsers.contains(userToAdd);
 
-        // PERSISTENCE!!
+        if ("".equals(nameString) || "".equals(emailString)
+                || "".equals(passwordString) || "".equals(confirmPasswordString)) {
 
-        if (nameEmpty || emailEmpty || passwordEmpty || confirmPasswordEmpty) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            /*AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Missing Entry!");
             dialog.setMessage("Please ensure all fields are filled");
             dialog.setPositiveButton("OK", null);
-            dialog.show();
-        } else if (!passwordsMatch) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.show();*/
+
+            displayMissingEntry();
+
+        } else if (!checkPasswordMatch(passwordString,
+                confirmPasswordString)) {
+
+            /*AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Matching Error!");
             dialog.setMessage("Passwords don't match. Please check again.");
             dialog.setPositiveButton("OK", null);
-            dialog.show();
+            dialog.show();*/
+
+            displayMatchingError();
+
         } else if (!passwordLengthOkay) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            /*AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Password Error!");
             dialog.setMessage("Password must be at least 8 characters.");
             dialog.setPositiveButton("OK", null);
-            dialog.show();
+            dialog.show();*/
+
+            displayPasswordLengthBad();
+
         } else if (containsUser) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+            /*AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("Email Error!");
             dialog.setMessage("That email already exists in our system.");
             dialog.setPositiveButton("OK", null);
-            dialog.show();
+            dialog.show();*/
+
+            displayUserExists();
         } else {
             db.addUser(userToAdd);
             Intent newIntent = new Intent(this, MainActivity.class);
@@ -183,6 +187,62 @@ public class NewAccount extends AppCompatActivity implements AdapterView.OnItemS
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    /**
+     * Display that an entry is missing
+     */
+    private void displayMissingEntry() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Missing Entry!");
+        dialog.setMessage("Please ensure all fields are filled");
+        dialog.setPositiveButton("OK", null);
+        dialog.show();
+    }
+
+    /**
+     * Display that the passwords do not match
+     */
+    private void displayMatchingError() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Matching Error!");
+        dialog.setMessage("Passwords don't match. Please check again.");
+        dialog.setPositiveButton("OK", null);
+        dialog.show();
+    }
+
+    /**
+     * Display that the Password length is lest than 8
+     */
+    private void displayPasswordLengthBad() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Password Error!");
+        dialog.setMessage("Password must be at least 8 characters.");
+        dialog.setPositiveButton("OK", null);
+        dialog.show();
+    }
+
+    /**
+     *  Display that a User already exists in the system
+     */
+    private void displayUserExists() {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Email Error!");
+        dialog.setMessage("That email already exists in our system.");
+        dialog.setPositiveButton("OK", null);
+        dialog.show();
+    }
+
+
+    /**
+     * Confirms whether the password is the same as the confirmed password
+     *
+     * @param password The original password
+     * @param confirmPassword The password that should match the original password
+     * @return true is the two parameters match, else false
+     */
+    private static boolean checkPasswordMatch(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
     }
 
 }

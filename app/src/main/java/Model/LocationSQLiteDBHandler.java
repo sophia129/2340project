@@ -28,8 +28,8 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
     private static final String KEY_PHONE = "phone";
     private static final String KEY_WEBSITE = "website";
 
-    private static final String[] COLUMNS = {KEY_KEY, KEY_NAME, KEY_LATITUDE, KEY_LONGITUDE,
-            KEY_STREET_ADDRESS, KEY_CITY, KEY_STATE, KEY_ZIP, KEY_TYPE, KEY_PHONE, KEY_WEBSITE};
+    /*private static final String[] COLUMNS = {KEY_KEY, KEY_NAME, KEY_LATITUDE, KEY_LONGITUDE,
+            KEY_STREET_ADDRESS, KEY_CITY, KEY_STATE, KEY_ZIP, KEY_TYPE, KEY_PHONE, KEY_WEBSITE};*/
 
     /**
      * Initialize the Database Handler
@@ -86,6 +86,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
 
+        assert cursor != null;
         Location location = new Location(cursor.getString(0), cursor.getString(1),
                 cursor.getString(2), cursor.getString(3), cursor.getString(4),
                 cursor.getString(5), cursor.getString(6), cursor.getString(7),
@@ -129,7 +130,7 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Location location = null;
+        Location location;
 
         if (cursor.moveToFirst()) {
             do {
@@ -140,6 +141,8 @@ public class LocationSQLiteDBHandler extends SQLiteOpenHelper {
                 locations.add(location);
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
 
         return locations;
     }

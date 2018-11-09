@@ -19,7 +19,6 @@ import com.example.breadscrumbs.donation_tracker.R;
 import com.example.breadscrumbs.donation_tracker.SearchStuff.Search_Options;
 
 import Model.Location;
-import Model.LocationDetailModel;
 import Model.LocationSQLiteDBHandler;
 import Model.SQLiteDatabaseHandler;
 import Model.User;
@@ -31,7 +30,6 @@ public class LocationDetail extends AppCompatActivity {
 
     private final LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
     private final SQLiteDatabaseHandler usersDb = MainActivity.getDb();
-    private TextView detailHolder;
 
     private Location currentLocation;
     private String userEmail;
@@ -53,7 +51,7 @@ public class LocationDetail extends AppCompatActivity {
         Button view = findViewById(R.id.viewDonations);
         Button add = findViewById(R.id.addDonation);
 
-        detailHolder = findViewById(R.id.DetailHolder);
+        TextView detailHolder = findViewById(R.id.DetailHolder);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         final WindowManager currentWM = getWindowManager();
@@ -67,8 +65,9 @@ public class LocationDetail extends AppCompatActivity {
         int forTV = (height - ((topLayout.getLayoutParams().height * 2)
                 + (add.getLayoutParams().height - sizingConstantForSpacing)));
 
-        User currentUser = usersDb.getUser(userEmail);
-        User.UserType userType = currentUser.getUserType();
+        //User currentUser = usersDb.getUser(userEmail);
+        //User.UserType userType = currentUser.getUserType();
+        User.UserType userType = usersDb.getUserType(userEmail);
 
         if (userType == User.UserType.USER) {
             view.setVisibility(View.GONE);
@@ -94,7 +93,7 @@ public class LocationDetail extends AppCompatActivity {
      */
     private void loadTV()
     {
-        String toShow = LocationDetailModel.returnContents(currentLocation);
+        String toShow = currentLocation.toString();
         TextView detailHolder = findViewById(R.id.DetailHolder);
         detailHolder.setMovementMethod(new ScrollingMovementMethod());
         detailHolder.setText(toShow);

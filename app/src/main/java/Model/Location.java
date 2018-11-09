@@ -174,4 +174,23 @@ public class Location {
         this.phone = phone;
         this.website = website;
     }
+
+    @Override
+    public String toString() {
+        String forTV = "";
+
+        forTV += "Key\n" + this.getKey() + "\n\n";
+        forTV += "Name\n" + this.getName() + "\n\n";
+        forTV += "Latitude\n" + this.getLatitude() + "\n\n";
+        forTV += "Longitude\n" + this.getLongitude() + "\n\n";
+        forTV += "Street Address\n" + this.getStreetAddress() + "\n\n";
+        forTV += "City\n" + this.getCity() + "\n\n";
+        forTV += "State\n" + this.getState() + "\n\n";
+        forTV += "ZIP\n" + this.getZip() + "\n\n";
+        forTV += "Type\n" + this.getType() + "\n\n";
+        forTV += "Phone\n" + this.getPhone() + "\n\n";
+        forTV += "Website\n" + this.getWebsite() + "\n\n";
+
+        return forTV;
+    }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.breadscrumbs.donation_tracker.DonationStuff.DonationDetail;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import Model.Donation;
 import Model.DonationDatabaseHandler;
-import Model.Location;
+//import Model.Location;
 import Model.LocationSQLiteDBHandler;
 
 /**
@@ -26,7 +27,6 @@ import Model.LocationSQLiteDBHandler;
  */
 public class Search_Category extends AppCompatActivity {
 
-    private String locationKey;
     private final DonationDatabaseHandler db = MainActivity.getDonationsDb();
     private final LocationSQLiteDBHandler locationsDB = MainActivity.getLocationsDb();
 
@@ -43,7 +43,7 @@ public class Search_Category extends AppCompatActivity {
         donationItems = findViewById(R.id.donationItems);
 
         Intent intent = getIntent();
-        locationKey = intent.getStringExtra("Location Key");
+        String locationKey = intent.getStringExtra("Location Key");
 
         if (!"".equals(locationKey)) {
             location = locationsDB.getLocation(locationKey);
@@ -67,7 +67,7 @@ public class Search_Category extends AppCompatActivity {
     private void loadCategories() {
         final String[] categories = {"Clothing", "Hat", "Kitchen",
                 "Electronics", "Household", "Other"};
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ListAdapter arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 categories);
@@ -93,7 +93,7 @@ public class Search_Category extends AppCompatActivity {
         final String[] donationsItem = itemsAsList(category);
         final List<Donation> donations = db.getCategoryItems(category, location);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ListAdapter arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 donationsItem);
@@ -115,10 +115,10 @@ public class Search_Category extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String key = "";
+                String key;
                 Donation toUse = donations.get(position);
-                Location currentLocation = toUse.getLocation();
-                key = currentLocation.getKey();
+                //Location currentLocation = toUse.getLocation();
+                key = toUse.getLocationKey();
 
                 Intent newIntent = new Intent(outerContext, DonationDetail.class);
                 newIntent.putExtra("Location Key", key);

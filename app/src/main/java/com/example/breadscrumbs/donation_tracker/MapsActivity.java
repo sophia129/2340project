@@ -13,14 +13,17 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import Model.Location;
+import Model.LocationSQLiteDBHandler;
 
 /**
  * Controller that displays a Google Map with locations and their details
  */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private static final LocationSQLiteDBHandler db = MainActivity.getLocationsDb();
 
     /**
      * Automatically generated code by Android to support integration of Google Maps.
@@ -49,11 +52,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
 
-        Model.Location[] locationList = Model.locationModel.returnLocations();
+        Model.Location[] locationList = returnLocations();
 
-        UiSettings currentSettings = mMap.getUiSettings();
+        UiSettings currentSettings = googleMap.getUiSettings();
         currentSettings.setZoomControlsEnabled(true);
 
         for (Location location : locationList) {
@@ -64,11 +66,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             marker.title(location.getName());
             marker.snippet(location.getPhone());
 
-            mMap.addMarker(marker);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(temp));
+            googleMap.addMarker(marker);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(temp));
         }
 
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(8));
+        googleMap.moveCamera(CameraUpdateFactory.zoomTo(8));
 
     }
 
@@ -79,6 +81,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     public void ClickedBackButton(View view) {
         onBackPressed();
+    }
+
+    /**
+     * Method that returns an array with all the names of the locations
+     * @return the list of locations as Locations
+     */
+    private static Location[] returnLocations() {
+        List<Location> allLocations = db.allLocations();
+        int locationsSize = allLocations.size();
+        Location[] toReturn = new Location[locationsSize];
+        int index = 0;
+        for (Location location : db.allLocations()) {
+            toReturn[index] = location;
+            ++index;
+        }
+        return toReturn;
     }
 
 }

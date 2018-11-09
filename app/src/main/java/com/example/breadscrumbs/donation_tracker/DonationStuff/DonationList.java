@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.example.breadscrumbs.donation_tracker.DonationStuff.DonationDetail;
@@ -52,7 +53,7 @@ public class DonationList extends AppCompatActivity {
     {
         final String[] names = itemsAsList();
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+        ListAdapter arrayAdapter = new ArrayAdapter<>(
                 this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 names);
@@ -67,7 +68,6 @@ public class DonationList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                String key = Integer.toString(position + 1);
                 Intent newIntent = new Intent(outerContext, DonationDetail.class);
                 newIntent.putExtra("Location Key", locationKey);
                 newIntent.putExtra("Item", (String) parent.getItemAtPosition(position));

@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
-import Model.LogInModel;
+import Model.SQLiteDatabaseHandler;
+import Model.User;
 
 /**
  * LogIn class that handles input of username and password and checks the validity
  */
 public class LogIn extends AppCompatActivity {
+
+    private static final SQLiteDatabaseHandler db = MainActivity.getDb();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class LogIn extends AppCompatActivity {
         final String emailString = emailText.toString();
         final String passwordString = passwordText.toString();
 
-        if (LogInModel.validSignIn(emailString, passwordString)) {
+        if (validSignIn(emailString, passwordString)) {
             Intent newIntent = new Intent(this, MainMenu.class);
             newIntent.putExtra("email", emailString);
             startActivity(newIntent);
@@ -76,6 +79,27 @@ public class LogIn extends AppCompatActivity {
 
         userName.setText("");
         password.setText("");
+    }
+
+    /**
+     * Checks the passed in email and password with the ones on file.
+     *
+     * @param email The email being confirmed for the sign-in
+     * @param password The password that should correspond with the given email address
+     * @return the validity of the sign in (true if valid, false if not valid)
+     */
+    private static boolean validSignIn(String email, String password) {
+        for (User user : db.allUsers()) {
+            final String userPassword = user.getPassword();
+            final String userEmail = user.getUserEmail();
+            final boolean equalPasswords = userPassword.equals(password);
+            final boolean equalEmails = userEmail.equals(email);
+            if (equalPasswords && equalEmails)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

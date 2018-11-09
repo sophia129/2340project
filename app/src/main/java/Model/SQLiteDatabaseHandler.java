@@ -88,15 +88,49 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
 
-//        User user = new User(cursor.getString(0), cursor.getString(1),
-//                cursor.getString(2), User.UserType.valueOf(cursor.getString(3).toUpperCase()));
 
-        String userType = cursor.getString(3);
+        String userType = (cursor != null) ? cursor.getString(3) : null;
+        assert userType != null;
         userType = userType.toUpperCase();
 
-        return new User(cursor.getString(0), cursor.getString(1),
-                cursor.getString(2),
+        String userEmail = cursor.getString(0);
+        String userName = cursor.getString(1);
+        String password = cursor.getString(2);
+
+        cursor.close();
+
+        return new User(userEmail, userName,
+                password,
                 User.UserType.valueOf(userType));
+    }
+
+    /**
+     *
+     * @param email is the email of the user to fetch
+     * @return the UserType of the email of the user passed in
+     */
+    public User.UserType getUserType(String email) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_NAME,
+                COLUMNS,
+                KEY_EMAIL + " = ?",
+                new String[] {email},
+                null,
+                null,
+                null
+        );
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String userType = (cursor != null) ? cursor.getString(3) : null;
+        assert userType != null;
+        userType = userType.toUpperCase();
+
+        cursor.close();
+
+        return User.UserType.valueOf(userType);
     }
 
     /**
@@ -123,6 +157,8 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
+
         return users;
     }
 
@@ -148,11 +184,13 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     }
 
     /*
+
     public void removeAllUsers() {
         String query = "DELETE FROM " + TABLE_NAME;
         getWritableDatabase().execSQL(query);
     }
     */
+
 
     /*
     public int updateUser(User user) {
