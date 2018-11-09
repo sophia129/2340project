@@ -30,11 +30,6 @@ public class ExampleUnitTest {
         User bob = new User("Bob", "bob@email.com", "@objectsDesign!", User.UserType.USER);
         User carol = new User("Carol", "carol@email.com", "@ObjectSdESIGN!", User.UserType.ADMIN);
 
-        db.addUser(john);
-        db.addUser(alice);
-        db.addUser(bob);
-        db.addUser(carol);
-
         testList.add(john);
         testList.add(alice);
         testList.add(bob);
@@ -42,21 +37,24 @@ public class ExampleUnitTest {
 
         when(db.allUsers()).thenReturn(testList);
 
+        db.addUser(john);
+        db.addUser(alice);
+        db.addUser(bob);
+        db.addUser(carol);
         assertEquals(db.allUsers(), testList);
 
-        User james = new User("James", "john@email.com", "987654321",User.UserType.USER);
-
         //Tests adding a duplicate email to the database. All Users should remain the same
-        db.addUser(james);
         when(db.allUsers()).thenReturn(testList);
+        User james = new User("James", "john@email.com", "987654321",User.UserType.USER);
+        db.addUser(james);
+        assertEquals(db.allUsers(), testList);
 
+        when(db.allUsers()).thenReturn(testList);
         List<User> appendedList = new ArrayList<User>();
         for (User u : testList) {
             appendedList.add(u);
         }
         appendedList.add(james);
-
-        assertEquals(db.allUsers(), testList);
         assertNotEquals(db.allUsers(), appendedList);
     }
 
@@ -64,7 +62,6 @@ public class ExampleUnitTest {
     public void testNoUsersInDatabase() {
         SQLiteDatabaseHandler db = mock(SQLiteDatabaseHandler.class);
         when(db.allUsers()).thenReturn(null);
-
         assertNull(db.allUsers());
     }
 
